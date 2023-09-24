@@ -11,5 +11,23 @@ export const commonStyles = StyleSheet.create({
 
 
 export const loginScreenStyles = StyleSheet.create({
-  // Styles specific to the LoginScreen component
+  loginScreenBase:{
+    flex: 1,
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    margin: 30,
+    borderWidth: 10,
+    borderRadius: 30,
+    backgroundColor: 'rgba(255,255,255,0.3)'
+  },
+  input: {
+    height: 40,
+    width: 150,
+    margin: 15,
+    borderWidth: 1,
+    padding: 10,
+    borderColor: '#7a42f4',
+    borderWidth: 1
+  }
 });
