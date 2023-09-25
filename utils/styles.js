@@ -7,6 +7,11 @@ export const commonStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  errorText: {
+    color: 'red',
+    fontSize: 10,
+},
+
 });
 
 

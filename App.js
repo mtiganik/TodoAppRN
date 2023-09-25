@@ -16,10 +16,6 @@ const HomeScreen = () => {
 }
 
 export default function App() {
-  // storeData("Hello from localStorage")
-  // const valueFromLocalStorage = getData()
-  // console.log(valueFromLocalStorage)
-  // console.log("Hello again123")
   return (
     <NavigationContainer>
       <Stack.Navigator>

@@ -2,7 +2,7 @@ import { View, Text, TextInput, StyleSheet, Button } from "react-native"
 import { commonStyles, loginScreenStyles } from "../utils/styles";
 import { LinearGradient } from 'expo-linear-gradient';
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
 
   return (
     <LinearGradient style={{ flex: 1 }} colors={['#833ab4', '#fd1d1d', '#fcb045']} >
@@ -38,7 +38,7 @@ const LoginScreen = () => {
           <Text>
             Don't have an account?{" "}
             <Text style={{ color: 'blue' }}
-              onPress={() => { }}>
+              onPress={() => navigation.navigate("Register")}>
               Register account
 
             </Text>
