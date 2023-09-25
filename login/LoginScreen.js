@@ -1,12 +1,16 @@
-import { View, Text, TextInput, StyleSheet, Button } from "react-native"
+import { View, Text, TextInput, ScrollView, StyleSheet, Button } from "react-native"
 import { commonStyles, loginScreenStyles } from "../utils/styles";
 import { LinearGradient } from 'expo-linear-gradient';
+import {ShowPassword, HidePassword} from "../utils/SvgImages"
+import { useState } from "react";
+import { SvgXml } from "react-native-svg";
 
 const LoginScreen = ({navigation}) => {
+const [showPassword, setShowPassword] = useState(false)
 
   return (
     <LinearGradient style={{ flex: 1 }} colors={['#833ab4', '#fd1d1d', '#fcb045']} >
-      <View style={loginScreenStyles.loginScreenBaseToDelete}>
+      <ScrollView contentContainerStyle={loginScreenStyles.loginScreenBase}>
         <View style={{
           flex: 1,
           justifyContent: "flex-end",
@@ -27,13 +31,20 @@ const LoginScreen = ({navigation}) => {
             placeholder="Email"
             autoCapitalize="none"
           />
-
-          <TextInput style={loginScreenStyles.input}
+<View style={loginScreenStyles.passwordInputContainer}>
+          <TextInput style={{flex: 1}}
             underlineColorAndroid="transparent"
             placeholder="Password"
             autoCapitalize="none"
-            secureTextEntry={true}
+            secureTextEntry={!showPassword}
           />
+          <SvgXml 
+            xml={showPassword ? HidePassword : ShowPassword}
+            width={24}
+            height={24}
+            onPress={() => setShowPassword(!showPassword)}
+          />
+          </View>
           <Button title="Login" />
           <Text>
             Don't have an account?{" "}
@@ -44,7 +55,7 @@ const LoginScreen = ({navigation}) => {
             </Text>
           </Text>
         </View>
-      </View>
+      </ScrollView>
     </LinearGradient>
 
 

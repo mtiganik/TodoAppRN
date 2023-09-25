@@ -26,7 +26,6 @@ export const loginScreenStyles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.3)'
   },
 
-
   loginScreenBaseToDelete:{
     flex: 1,
     height: 200,

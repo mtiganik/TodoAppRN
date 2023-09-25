@@ -12,13 +12,15 @@ const inputInitials = {
   lastname: "",
   email: "",
   password:"",
-  isFormValid: false
+  confirmPassword: ""
 }
+
 const inputErrorsInitial = {
   firstNameError: "",
   lastNameError: "",
   emailError: "",
-  passwordError: ""
+  passwordError: "",
+  confirmPasswordError: ""
 }
 
 const RegisterScreen = ({ navigation }) => {
@@ -30,6 +32,8 @@ const RegisterScreen = ({ navigation }) => {
   const handlePress = () => {
     validateForm();
     if(isFormValid){
+
+
       console.log("Form submitted succesfully!")
     }else{
       console.log("Form has errors. Please correct them.")
@@ -55,6 +59,10 @@ const RegisterScreen = ({ navigation }) => {
       errors.passwordError = 'password is required'
     }else if(!isStrongPassword(input.password)){
       errors.passwordError = 'password must contain atleast 6 letters, one uppercase, one lowercase letter, a digit and an special character'
+    }
+
+    if(input.confirmPassword.localeCompare( input.password) != 0){
+      errors.confirmPasswordError = 'confirm password do not match actual password'
     }
     setInputErrors(errors)
     setIsFormValid(Object.keys(errors).length === 0)
@@ -99,25 +107,44 @@ const RegisterScreen = ({ navigation }) => {
             placeholder="Email"
             autoCapitalize="none"
             value={input.email}
-            onChangeText={(val) => {setInput({...input, email:val})}}
+            onChangeText={(val) => { setInput({ ...input, email: val }) }}
           />
           <Text style={commonStyles.errorText} >{inputErrors.emailError}</Text>
-              <View style={loginScreenStyles.passwordInputContainer}>
-          <TextInput style={{flex:1}}
-            underlineColorAndroid="transparent"
-            placeholder="Password"
-            autoCapitalize="none"
-            secureTextEntry={!showPassword}
-            value={input.password}
-            onChangeText={(val) => {setInput({...input, password:val})}}
-          />
-          <SvgXml 
-          xml={showPassword ? HidePassword : ShowPassword}
-          width={24}
-          height={24}
-          onPress={() => setShowPassword(!showPassword)} />
+          
+          <View style={loginScreenStyles.passwordInputContainer}>
+            <TextInput style={{ flex: 1 }}
+              underlineColorAndroid="transparent"
+              placeholder="Password"
+              autoCapitalize="none"
+              secureTextEntry={!showPassword}
+              value={input.password}
+              onChangeText={(val) => { setInput({ ...input, password: val }) }}
+            />
+            <SvgXml
+              xml={showPassword ? HidePassword : ShowPassword}
+              width={24}
+              height={24}
+              onPress={() => setShowPassword(!showPassword)} />
           </View>
           <Text style={commonStyles.errorText} >{inputErrors.passwordError}</Text>
+
+          <View style={loginScreenStyles.passwordInputContainer}>
+            <TextInput style={{ flex: 1 }}
+              underlineColorAndroid="transparent"
+              placeholder="Confirm password"
+              autoCapitalize="none"
+              secureTextEntry={!showPassword}
+              value={input.confirmPassword}
+              onChangeText={(val) => { setInput({ ...input, confirmPassword: val }) }}
+            />
+            <SvgXml
+              xml={showPassword ? HidePassword : ShowPassword}
+              width={24}
+              height={24}
+              onPress={() => setShowPassword(!showPassword)} />
+          </View>
+          <Text style={commonStyles.errorText} >{inputErrors.confirmPasswordError}</Text>
+
 
           <Button title="Register" onPress={handlePress} />
           <Text>
