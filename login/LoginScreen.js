@@ -6,7 +6,7 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <LinearGradient style={{ flex: 1 }} colors={['#833ab4', '#fd1d1d', '#fcb045']} >
-      <View style={loginScreenStyles.loginScreenBase}>
+      <View style={loginScreenStyles.loginScreenBaseToDelete}>
         <View style={{
           flex: 1,
           justifyContent: "flex-end",

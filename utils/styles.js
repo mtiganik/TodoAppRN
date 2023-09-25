@@ -17,6 +17,17 @@ export const commonStyles = StyleSheet.create({
 
 export const loginScreenStyles = StyleSheet.create({
   loginScreenBase:{
+    height: 500,
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    margin: 30,
+    borderWidth: 10,
+    borderRadius: 30,
+    backgroundColor: 'rgba(255,255,255,0.3)'
+  },
+
+
+  loginScreenBaseToDelete:{
     flex: 1,
     height: 200,
     justifyContent: 'center',
@@ -28,11 +39,23 @@ export const loginScreenStyles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: 150,
-    margin: 15,
+    width: 200,
+    margin: 5,
     borderWidth: 1,
     padding: 10,
     borderColor: '#7a42f4',
+    borderRadius:5,
     borderWidth: 1
-  }
+  },
+  passwordInputContainer:{
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    width: 200,
+    borderWidth: 1,
+    borderColor: '#7a42f4',
+    borderRadius: 5,
+    margin: 5,
+    padding: 10,
+  },
+
 });

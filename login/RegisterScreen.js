@@ -25,6 +25,7 @@ const RegisterScreen = ({ navigation }) => {
   const [input, setInput] = useState(inputInitials)
   const [inputErrors, setInputErrors] = useState(inputErrorsInitial)
   const [isFormValid, setIsFormValid] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const handlePress = () => {
     validateForm();
@@ -35,51 +36,38 @@ const RegisterScreen = ({ navigation }) => {
     }
   }
   const validateForm = () => {
-
     let errors = {}
     if (!input.firstname){
       errors.firstNameError = "First name is required"
-      console.log("First name required")
     }
     if (!input.lastname){
       errors.lastNameError = "Last name is required"
-      console.log("Last name required")
     }
     
     if(!input.email){
       errors.emailError = 'Email is required.'
-      console.log("email required")
 
     }else if(!/\S+@\S+\.\S+/.test(input.email)){
       errors.emailError = 'Email is invalid'
-      console.log("invalid email")
-
     }
 
     if(!input.password){
       errors.passwordError = 'password is required'
-      console.log("password required email")
-
     }else if(!isStrongPassword(input.password)){
       errors.passwordError = 'password must contain atleast 6 letters, one uppercase, one lowercase letter, a digit and an special character'
-      console.log("invalid password")
-
     }
-
     setInputErrors(errors)
     setIsFormValid(Object.keys(errors).length === 0)
   }
 
   return (
     <LinearGradient style={{ flex: 1 }} colors={['#833ab4', '#fd1d1d', '#fcb045']} >
-      <ScrollView contentContainerStyle={styles.loginScreenBase}>
+      <ScrollView contentContainerStyle={loginScreenStyles.loginScreenBase}>
         <View style={{
           justifyContent: "flex-end",
           alignItems: "center",
         }}
         >
-          <SvgXml xml={HidePassword} width="10%" height="10%" />
-          <SvgXml xml={ShowPassword} width="10%" height="10%" />
           <Text style={{
             fontFamily: "sans-serif-condensed",
             fontSize: 30
@@ -88,7 +76,7 @@ const RegisterScreen = ({ navigation }) => {
         <View style={{
           alignItems: "center",
         }}>
-          <TextInput style={styles.registesInput}
+          <TextInput style={loginScreenStyles.input}
             underlineColorAndroid="transparent"
             placeholder="First name"
             autoCapitalize="none"
@@ -97,7 +85,7 @@ const RegisterScreen = ({ navigation }) => {
               setInput({...input, firstname: val})}}
           />
           <Text style={commonStyles.errorText}>{inputErrors.firstNameError}</Text>
-          <TextInput style={styles.registesInput}
+          <TextInput style={loginScreenStyles.input}
             underlineColorAndroid="transparent"
             placeholder="Last name"
             autoCapitalize="none"
@@ -106,7 +94,7 @@ const RegisterScreen = ({ navigation }) => {
           />
           <Text style={commonStyles.errorText}>{inputErrors.lastNameError}</Text>
 
-          <TextInput style={styles.registesInput}
+          <TextInput style={loginScreenStyles.input}
             underlineColorAndroid="transparent"
             placeholder="Email"
             autoCapitalize="none"
@@ -114,14 +102,21 @@ const RegisterScreen = ({ navigation }) => {
             onChangeText={(val) => {setInput({...input, email:val})}}
           />
           <Text style={commonStyles.errorText} >{inputErrors.emailError}</Text>
-          <TextInput style={styles.registesInput}
+              <View style={loginScreenStyles.passwordInputContainer}>
+          <TextInput style={{flex:1}}
             underlineColorAndroid="transparent"
             placeholder="Password"
             autoCapitalize="none"
-            secureTextEntry={true}
+            secureTextEntry={!showPassword}
             value={input.password}
             onChangeText={(val) => {setInput({...input, password:val})}}
           />
+          <SvgXml 
+          xml={showPassword ? HidePassword : ShowPassword}
+          width={24}
+          height={24}
+          onPress={() => setShowPassword(!showPassword)} />
+          </View>
           <Text style={commonStyles.errorText} >{inputErrors.passwordError}</Text>
 
           <Button title="Register" onPress={handlePress} />
@@ -138,28 +133,4 @@ const RegisterScreen = ({ navigation }) => {
   )
 }
 
-
-
 export default RegisterScreen
-const styles = StyleSheet.create({
-  loginScreenBase:{
-    height: 500,
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    margin: 30,
-    borderWidth: 10,
-    borderRadius: 30,
-    backgroundColor: 'rgba(255,255,255,0.3)'
-  },
-  registesInput: {
-    height: 40,
-    width: 150,
-    margin: 5,
-    borderWidth: 1,
-    padding: 10,
-    borderColor: '#7a42f4',
-    borderWidth: 1
-  },
-
-}
-)
