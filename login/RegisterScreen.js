@@ -8,8 +8,8 @@ import {ShowPassword, HidePassword} from "../utils/SvgImages"
 
 
 const inputInitials = {
-  firstname: "",
-  lastname: "",
+  firstName: "",
+  lastName: "",
   email: "",
   password:"",
   confirmPassword: ""
@@ -41,10 +41,10 @@ const RegisterScreen = ({ navigation }) => {
   }
   const validateForm = () => {
     let errors = {}
-    if (!input.firstname){
+    if (!input.firstName){
       errors.firstNameError = "First name is required"
     }
-    if (!input.lastname){
+    if (!input.lastName){
       errors.lastNameError = "Last name is required"
     }
     
@@ -88,17 +88,17 @@ const RegisterScreen = ({ navigation }) => {
             underlineColorAndroid="transparent"
             placeholder="First name"
             autoCapitalize="none"
-            value={input.firstname}
+            value={input.firstName}
             onChangeText={(val) => {
-              setInput({...input, firstname: val})}}
+              setInput({...input, firstName: val})}}
           />
           <Text style={commonStyles.errorText}>{inputErrors.firstNameError}</Text>
           <TextInput style={loginScreenStyles.input}
             underlineColorAndroid="transparent"
             placeholder="Last name"
             autoCapitalize="none"
-            value={input.lastname}
-            onChangeText={(val) => {setInput({...input, lastname: val})}}
+            value={input.lastName}
+            onChangeText={(val) => {setInput({...input, lastName: val})}}
           />
           <Text style={commonStyles.errorText}>{inputErrors.lastNameError}</Text>
 
