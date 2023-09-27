@@ -4,7 +4,7 @@ import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 input2= {
-    "email": "aaa@bbb.ee",
+    "email": "aaa@bbbbb.ee",
     "password": "q1W",
     "firstName": "aaa",
     "lastName": "aaa"
@@ -15,7 +15,7 @@ input2= {
 const inputInitials = {
   firstName: "dsadsa",
   lastName: "bbb",
-  email: "aa1@bb.ee",
+  email: "aa1@bbb1.ee",
   password:"Q1w2E#",
   confirmPassword: ""
 }
@@ -24,9 +24,9 @@ const inputInitials = {
 const url = "https://taltech.akaver.com/api/v1/Account/Register"
 
 
-const LoginTest = ({navigation}) => {
+const RegisterTest = ({navigation}) => {
 
-  const[input, setInput] = useState(inputInitials)
+  const[input, setInput] = useState()
   const[error, setError] = useState("")
   const[message, setMessage] = useState("")
 
@@ -44,7 +44,7 @@ const LoginTest = ({navigation}) => {
       console.log(token)
 
       await AsyncStorage.setItem('token', token);
-      navigation.navigate('Home');
+      navigation.navigate('Home', { token });
     }catch (error){
       console.log("Error occured")
       const msg = error.response.data.messages
@@ -61,4 +61,4 @@ const LoginTest = ({navigation}) => {
   )
 }
 
-export default LoginTest
+export default RegisterTest
