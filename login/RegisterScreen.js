@@ -5,6 +5,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { isStrongPassword } from '../utils/passwordValidation';
 import { SvgXml } from 'react-native-svg';
 import {ShowPassword, HidePassword} from "../utils/SvgImages"
+import axios from "axios"
+import { getData, removeData } from '../utils/storage';
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 const inputInitials = {
@@ -20,8 +23,10 @@ const inputErrorsInitial = {
   lastNameError: "",
   emailError: "",
   passwordError: "",
-  confirmPasswordError: ""
+  confirmPasswordError: "",
+  serverError: ""
 }
+const url = "https://taltech.akaver.com/api/v1/Account/Register"
 
 const RegisterScreen = ({ navigation }) => {
   const [input, setInput] = useState(inputInitials)
@@ -29,12 +34,36 @@ const RegisterScreen = ({ navigation }) => {
   const [isFormValid, setIsFormValid] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
-  const handlePress = () => {
+  const handlePress =async () => {
     validateForm();
     if(isFormValid){
+      getData('token').then((value) =>{
+        console.log(value)
+        if (value !== null){
+          removeData('token').then(() => {})
+        }
+      }
+      )
 
+      try{
+        const response = await axios.post(url, {
+          email: input.email,
+          password: input.password,
+          firstName: input.firstName,
+          lastName: input.lastName
+        });
+  
+        const {token} = response.data
+        await AsyncStorage.setItem('token', token);
 
-      console.log("Form submitted succesfully!")
+        navigation.navigate('Home', { token });
+
+      }catch (error){
+        console.log("Error occured")
+        const msg = error.response.data.messages
+        setInputErrors({...inputErrors, serverError: msg})
+      }
+  
     }else{
       console.log("Form has errors. Please correct them.")
     }
@@ -84,6 +113,7 @@ const RegisterScreen = ({ navigation }) => {
         <View style={{
           alignItems: "center",
         }}>
+
           <TextInput style={loginScreenStyles.input}
             underlineColorAndroid="transparent"
             placeholder="First name"
@@ -147,6 +177,8 @@ const RegisterScreen = ({ navigation }) => {
 
 
           <Button title="Register" onPress={handlePress} />
+          <Text style={commonStyles.errorText}>{inputErrors.serverError}</Text>
+
           <Text>
             Already have an account?{" "}
             <Text style={{ color: 'blue' }}
