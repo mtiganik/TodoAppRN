@@ -9,89 +9,72 @@ import { getData, removeData } from './utils/storage';
 import LoginScreen from './login/LoginScreen';
 import RegisterScreen from './login/RegisterScreen';
 import RegisterTest from './login/RegisterTest';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
-{/* <Stack.Screen name="Home" component={HomeScreen} initialParams={ user.token } /> */}
-
-    // <UserProvider>
-    //   </UserProvider>
+      // <UserProvider>
+      // </UserProvider>
 export default function App() {
 
   return (
     <NavigationContainer>
         <Stack.Navigator>
-
           <Stack.Screen name="Main" component={MainScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+
         </Stack.Navigator>
       </NavigationContainer>
+
   );
 }
 const MainScreen = () => {
-  const [token, setToken] = useState('')
+
+  const userData = getUserData();
+  if (userData === null) return <LoginScreen/>
+  else return <HomeScreen/>
+}
+
+
+const getUserData = async() => {
+  const userDataJson = await AsyncStorage.getItem('userData')
+  // Here it shows data
+  console.log(userDataJson)
+  if (userDataJson) {
+    const userData = JSON.parse(userDataJson)
+    return {
+      token: userData.token,
+      refreshToken: userData.refreshToken,
+      firstName: userData.firstName,
+      lastName: userData.lastName
+    }
+  }
+  return {}
+}
+
+const HomeScreen = ({navigation}) => {
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    getData('token').then((value) => {
-      if (value !== null) {
-        setToken(value);
-      }else {
-        setToken('')
-      } 
-    })
-  }, []);
+    const fetchData = async () => {
+      const data = await getUserData();
+      setUserData(data)
+    }
+    fetchData();
+  }, [])
 
- return token ? <HomeScreen token= {token} setToken = {setToken} /> : <AuthScreens/>
-}
-
-    //     <UserProvider>
-    // </UserProvider>
-
-// const MainScreen = () => {
-  //const {user, setUser} = useUser();
-  
-  // console.log(user)
-
-  // if(user === undefined){
-  //   return <AuthScreens/>;
-  // }
-  // // get token value
-  // useEffect(() => {
-  //   getData('token').then((value) => {
-  //     if (value !== null) {
-  //       setUser((prevUser) => ({...prevUser, token: value}));
-  //     }else {
-  //       setUser((prevUser) => ({...prevUser, token: ''}))
-  //     } 
-  //   })
-  // }, []);
-
-  // return user.token ? <HomeScreen /> : <AuthScreens/>
-//   return <AuthScreens/>
-// }
-
-const AuthScreens = () => {
-  return (
-    <>
-    <Stack.Screen name="RegisterTest" component={RegisterTest} />
-    <Stack.Screen name="Register" component={RegisterScreen} />
-    <Stack.Screen name="Login" component={LoginScreen} />
-  </>
-)
-}
-
-const HomeScreen = ({navigation,token, setToken}) => {
-  // const {user, setUser} = useUser();
-
-  const onPressLogout = () => {
-    removeData('token').then(() => {
-      setToken('')
-    })
+  const onPressLogout = async () => {
+    await AsyncStorage.removeItem('userData')
     navigation.navigate('Login')
   }
+  console.log(userData.firstName)
   return (
     <View>
       <Text>Home screen</Text>
-      {token && <Text>Token: {token}</Text>}
+      <Text>Hello {userData.firstName} {userData.lastName}</Text>
+      {/* {userData.token && <Text>Token: {userData.token}</Text>} */}
       <Button title="Logout" onPress={onPressLogout}/>
     </View>
   )

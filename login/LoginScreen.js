@@ -4,10 +4,38 @@ import { LinearGradient } from 'expo-linear-gradient';
 import {ShowPassword, HidePassword} from "../utils/SvgImages"
 import { useState } from "react";
 import { SvgXml } from "react-native-svg";
+import axios from "axios"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+
+
+const url = "https://taltech.akaver.com/api/v1/Account/Login"
+
 
 const LoginScreen = ({navigation}) => {
+const [email, setEmail] = useState("")
+const [emailError, setEmailError] = useState("")
+const [password, setPassword] = useState("")
+const [serverResponse, setServerResponse] = useState("")
 const [showPassword, setShowPassword] = useState(false)
 
+const handlePress = async() => {
+  if(!/\S+@\S+\.\S+/.test(email)){
+    setEmailError('Email is invalid')
+  }else{
+    try{
+      const response = await axios.post(url,{
+        email: email,
+        password: password
+      })
+      const responseData = response.data;
+      await AsyncStorage.setItem('userData', JSON.stringify(responseData))
+      navigation.navigate('Home');
+
+    }catch(error){
+      setServerResponse(error)
+    }
+  }
+}
   return (
     <LinearGradient style={{ flex: 1 }} colors={['#833ab4', '#fd1d1d', '#fcb045']} >
       <ScrollView contentContainerStyle={loginScreenStyles.loginScreenBase}>
@@ -30,12 +58,18 @@ const [showPassword, setShowPassword] = useState(false)
             underlineColorAndroid="transparent"
             placeholder="Email"
             autoCapitalize="none"
+            value={email}
+            onChangeText={setEmail}
           />
+          <Text style={commonStyles.errorText}>{emailError}</Text>
+
 <View style={loginScreenStyles.passwordInputContainer}>
           <TextInput style={{flex: 1}}
             underlineColorAndroid="transparent"
             placeholder="Password"
             autoCapitalize="none"
+            value={password}
+            onChangeText={setPassword}
             secureTextEntry={!showPassword}
           />
           <SvgXml 
@@ -45,7 +79,9 @@ const [showPassword, setShowPassword] = useState(false)
             onPress={() => setShowPassword(!showPassword)}
           />
           </View>
-          <Button title="Login" />
+          <Button title="Login" onPress={handlePress} />
+          <Text style={commonStyles.errorText}>{serverResponse}</Text>
+
           <Text>
             Don't have an account?{" "}
             <Text style={{ color: 'blue' }}

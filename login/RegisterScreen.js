@@ -37,14 +37,6 @@ const RegisterScreen = ({ navigation }) => {
   const handlePress =async () => {
     validateForm();
     if(isFormValid){
-      getData('token').then((value) =>{
-        console.log(value)
-        if (value !== null){
-          removeData('token').then(() => {})
-        }
-      }
-      )
-
       try{
         const response = await axios.post(url, {
           email: input.email,
@@ -53,10 +45,10 @@ const RegisterScreen = ({ navigation }) => {
           lastName: input.lastName
         });
   
-        const {token} = response.data
-        await AsyncStorage.setItem('token', token);
-
-        navigation.navigate('Home', { token });
+        const responseData = response.data;
+        await AsyncStorage.setItem('userData', JSON.stringify(responseData))
+  
+        navigation.navigate('Home');
 
       }catch (error){
         console.log("Error occured")
