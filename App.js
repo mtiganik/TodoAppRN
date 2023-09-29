@@ -3,7 +3,7 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { UserProvider, useUser } from './context/UserContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, createContext, useContext} from 'react';
 import { getData, removeData } from './utils/storage';
 
 import LoginScreen from './login/LoginScreen';
@@ -13,12 +13,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
+// const UserContext = createContext();
       // <UserProvider>
       // </UserProvider>
+      // const [user, setUser] = useState("Jesse Hall")
 export default function App() {
-
   return (
-    <NavigationContainer>
+    <UserProvider >
+      <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Main" component={MainScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
@@ -27,14 +29,26 @@ export default function App() {
 
         </Stack.Navigator>
       </NavigationContainer>
+    </UserProvider >
 
   );
 }
-const MainScreen = () => {
+const MainScreen = ({navigation}) => {
+  console.log("In mainScreen")
+  const {user, setUser} = useUser()
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getUserData();
+      setUser(data)
+    }
+    fetchData();
+  }, [])
 
-  const userData = getUserData();
-  if (userData === null) return <LoginScreen/>
-  else return <HomeScreen/>
+  useEffect(() => {
+    if (user === null) return null; // App loading
+    else if (user.token) navigation.navigate("Home")
+    else return navigation.navigate("Login")
+  }, [user, navigation])
 }
 
 
@@ -54,27 +68,30 @@ const getUserData = async() => {
   return {}
 }
 
-const HomeScreen = ({navigation}) => {
-  const [userData, setUserData] = useState({});
+const emptyUser = {
+  token: '',
+  refreshToken: '',
+  email: '',
+  firstName: '',
+  lastName: ''
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getUserData();
-      setUserData(data)
-    }
-    fetchData();
-  }, [])
+}
+
+
+const HomeScreen = ({navigation}) => {
+
+  const {user, setUser} = useUser()
 
   const onPressLogout = async () => {
     await AsyncStorage.removeItem('userData')
+    setUser(emptyUser)
     navigation.navigate('Login')
   }
-  console.log(userData.firstName)
   return (
     <View>
-      <Text>Home screen</Text>
-      <Text>Hello {userData.firstName} {userData.lastName}</Text>
-      {/* {userData.token && <Text>Token: {userData.token}</Text>} */}
+      <Text>Home screen123 {user.firstName}</Text>
+      <Text>Hello {user.firstName} {user.lastName}</Text>
+
       <Button title="Logout" onPress={onPressLogout}/>
     </View>
   )

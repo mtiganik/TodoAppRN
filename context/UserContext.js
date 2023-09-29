@@ -1,18 +1,20 @@
 import React, {createContext, useContext, useState} from 'react';
 
-const UserContext = createContext();
+export const UserContext = createContext();
 
 export const useUser= () => {
-  return useContext(useContext);
+  return useContext(UserContext);
 }
+const emptyUser = {
+  token: '',
+  refreshToken: '',
+  email: '',
+  firstName: '',
+  lastName: ''
 
+}
 export const UserProvider = ({children}) => {
-  const [user, setUser] = useState({
-    token: '',
-    email: '',
-    firstName: '',
-    lastName: ''
-  })
+  const [user, setUser] = useState(emptyUser)
   return(
     <UserContext.Provider value={{user, setUser}}>
       {children}

@@ -6,6 +6,8 @@ import { useState } from "react";
 import { SvgXml } from "react-native-svg";
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useUser } from "../context/UserContext";
+import { storeData } from "../utils/storage";
 
 
 const url = "https://taltech.akaver.com/api/v1/Account/Login"
@@ -17,7 +19,7 @@ const [emailError, setEmailError] = useState("")
 const [password, setPassword] = useState("")
 const [serverResponse, setServerResponse] = useState("")
 const [showPassword, setShowPassword] = useState(false)
-
+const {user,setUser} = useUser()
 const handlePress = async() => {
   if(!/\S+@\S+\.\S+/.test(email)){
     setEmailError('Email is invalid')
@@ -29,13 +31,24 @@ const handlePress = async() => {
       })
       const responseData = response.data;
       await AsyncStorage.setItem('userData', JSON.stringify(responseData))
+      setUser((prevUser) => ({
+        ...prevUser,
+        token: responseData.token,
+        refreshToken: responseData.refreshToken,
+        firstName: responseData.firstName,
+        lastName: responseData.lastName,
+        email: email
+      }));
       navigation.navigate('Home');
 
     }catch(error){
+      console.error('AsyncStorage Error:', error);
+
       setServerResponse(error)
     }
   }
 }
+
   return (
     <LinearGradient style={{ flex: 1 }} colors={['#833ab4', '#fd1d1d', '#fcb045']} >
       <ScrollView contentContainerStyle={loginScreenStyles.loginScreenBase}>

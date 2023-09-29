@@ -8,6 +8,7 @@ import {ShowPassword, HidePassword} from "../utils/SvgImages"
 import axios from "axios"
 import { getData, removeData } from '../utils/storage';
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useUser } from '../context/UserContext';
 
 
 const inputInitials = {
@@ -33,7 +34,7 @@ const RegisterScreen = ({ navigation }) => {
   const [inputErrors, setInputErrors] = useState(inputErrorsInitial)
   const [isFormValid, setIsFormValid] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-
+  const {user, setUser} = useUser()
   const handlePress =async () => {
     validateForm();
     if(isFormValid){
@@ -44,11 +45,23 @@ const RegisterScreen = ({ navigation }) => {
           firstName: input.firstName,
           lastName: input.lastName
         });
-  
-        const responseData = response.data;
-        await AsyncStorage.setItem('userData', JSON.stringify(responseData))
-  
-        navigation.navigate('Home');
+        if(response && response.data){
+          const responseData = response.data;
+
+          setUser({
+            ...user,
+            token: responseData.token,
+            refreshToken: responseData.refreshToken,
+            firstName: responseData.firstName,
+            lastName: responseData.lastName,
+            email: input.email
+          })
+
+          navigation.navigate('Home');
+
+        }else{
+          console.error("Invalid response:", response)
+        }
 
       }catch (error){
         console.log("Error occured")
