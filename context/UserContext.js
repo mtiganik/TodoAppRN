@@ -21,3 +21,7 @@ export const UserProvider = ({children}) => {
     </UserContext.Provider>
   )
 }
+
+export const getToken = () => {
+  return user.token
+}
