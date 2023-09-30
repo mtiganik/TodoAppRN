@@ -8,15 +8,11 @@ import { getData, removeData } from './utils/storage';
 
 import LoginScreen from './login/LoginScreen';
 import RegisterScreen from './login/RegisterScreen';
-import RegisterTest from './login/RegisterTest';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { HomeScreen } from './todoApp/HomeScreen';
+import { LogoutButton } from './todoApp/LogoutButton';
 const Stack = createNativeStackNavigator();
 
-// const UserContext = createContext();
-      // <UserProvider>
-      // </UserProvider>
-      // const [user, setUser] = useState("Jesse Hall")
 export default function App() {
   return (
     <UserProvider >
@@ -26,7 +22,7 @@ export default function App() {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
-
+          <Stack.Screen name="Logout" component={LogoutButton} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider >
@@ -34,7 +30,6 @@ export default function App() {
   );
 }
 const MainScreen = ({navigation}) => {
-  console.log("In mainScreen")
   const {user, setUser} = useUser()
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +40,7 @@ const MainScreen = ({navigation}) => {
   }, [])
 
   useEffect(() => {
-    if (user === null) return null; // App loading
+    if (user === null) return null; 
     else if (user.token) navigation.navigate("Home")
     else return navigation.navigate("Login")
   }, [user, navigation])
@@ -54,8 +49,7 @@ const MainScreen = ({navigation}) => {
 
 const getUserData = async() => {
   const userDataJson = await AsyncStorage.getItem('userData')
-  // Here it shows data
-  console.log(userDataJson)
+
   if (userDataJson) {
     const userData = JSON.parse(userDataJson)
     return {
@@ -68,31 +62,3 @@ const getUserData = async() => {
   return {}
 }
 
-const emptyUser = {
-  token: '',
-  refreshToken: '',
-  email: '',
-  firstName: '',
-  lastName: ''
-
-}
-
-
-const HomeScreen = ({navigation}) => {
-
-  const {user, setUser} = useUser()
-
-  const onPressLogout = async () => {
-    await AsyncStorage.removeItem('userData')
-    setUser(emptyUser)
-    navigation.navigate('Login')
-  }
-  return (
-    <View>
-      <Text>Home screen123 {user.firstName}</Text>
-      <Text>Hello {user.firstName} {user.lastName}</Text>
-
-      <Button title="Logout" onPress={onPressLogout}/>
-    </View>
-  )
-}
