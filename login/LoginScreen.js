@@ -31,6 +31,8 @@ const handlePress = async() => {
       })
       const responseData = response.data;
       await AsyncStorage.setItem('userData', JSON.stringify(responseData))
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + responseData.token
+
       setUser((prevUser) => ({
         ...prevUser,
         token: responseData.token,

@@ -47,6 +47,7 @@ const RegisterScreen = ({ navigation }) => {
         });
         if(response && response.data){
           const responseData = response.data;
+          axios.defaults.headers.common['Authorization'] = 'Bearer ' + responseData.token
 
           setUser({
             ...user,
