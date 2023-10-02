@@ -10,7 +10,6 @@ export default EditCategory = ({category, setCategoryList}) => {
   const [error, setError] = useState("")
   const [categoryName, setCategoryName] = useState(category.categoryName)
   const [categorySort, setCategorySort] = useState(category.categorySort)
-  // setCategoryName(category.categoryName)
   console.log(category.categoryName)
   console.log(categoryName)
 
