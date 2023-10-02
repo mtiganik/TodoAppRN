@@ -11,6 +11,8 @@ import RegisterScreen from './login/RegisterScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HomeScreen } from './todoApp/HomeScreen';
 import { LogoutButton } from './todoApp/LogoutButton';
+import axios from "axios"
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -41,7 +43,11 @@ const MainScreen = ({navigation}) => {
 
   useEffect(() => {
     if (user === null) return null; 
-    else if (user.token) navigation.navigate("Home")
+    else if (user.token) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token
+
+      navigation.navigate("Home")
+    }
     else return navigation.navigate("Login")
   }, [user, navigation])
 }

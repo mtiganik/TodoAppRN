@@ -20,7 +20,7 @@ export const ListCategory = () => {
     const fetchData = async() => {
       try{
         const response = await axios.get(url)
-        console.log(response.data) // This works 
+        console.log("Hello") // This works 
 
         setCategoryList(response.data)
         console.log(categoryList) // This does not work
@@ -32,22 +32,22 @@ export const ListCategory = () => {
       }
     }
     fetchData();
-  }, [categoryList]);
+  }, []);
 
   return (
     <View>
-      <Text>Todo categories123</Text>
+      <Text>Todo categories12332</Text>
       {categoryList.length > 0 &&
           (
             <View>
           {categoryList.map(category => (
-            <Text key={category.id}> {category.categoryName} </Text>
-            // <ViewCategory key={category.id} category={category} setCategoryList={setCategoryList} />
+            // <Text key={category.id}> {category.categoryName} </Text>
+            <ViewCategory key={category.id} category={category} setCategoryList={setCategoryList} />
           ))}
         </View>
           )
       }
-      <Text style={commonStyles.errorText} >error</Text>
+      <Text style={commonStyles.errorText} >{error}</Text>
     </View>
   )
 }

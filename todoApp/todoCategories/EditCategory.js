@@ -1,14 +1,18 @@
 import { useState } from "react"
-import { View, Button, TextInput } from "react-native"
+import { View, Button, TextInput, Text } from "react-native"
 import axios from "axios"
 import { getURL } from "../../utils/getURL"
+import { commonStyles } from "../../utils/styles"
 
 const url = getURL()
 
-export default EditCategory = (category, setCategoryList) => {
+export default EditCategory = ({category, setCategoryList}) => {
   const [error, setError] = useState("")
   const [categoryName, setCategoryName] = useState(category.categoryName)
   const [categorySort, setCategorySort] = useState(category.categorySort)
+  // setCategoryName(category.categoryName)
+  console.log(category.categoryName)
+  console.log(categoryName)
 
   const handleEdit = async() => {
     try{
@@ -36,13 +40,13 @@ export default EditCategory = (category, setCategoryList) => {
     <View>
       <TextInput 
       value={categoryName} 
-      onChange={setCategoryName}
+      onChangeText={text => setCategoryName(text)}
       />
       <Text>Sort:</Text>
       <TextInput 
       keyboardtype="numeric" 
       value={category.categorySort} 
-      onChange={setCategorySort}/>
+      onChangeText={sort => setCategorySort(sort)}/>
       <Button 
       title="Edit"
       onPress = {handleEdit}

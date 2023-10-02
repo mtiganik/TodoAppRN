@@ -1,29 +1,34 @@
-import { useState } from "react"
-import { TextInput, TouchableOpacity } from "react-native"
+import { useState, useEffect } from "react"
+import { TextInput, TouchableOpacity, View, Text } from "react-native"
+import { SvgXml } from "react-native-svg";
+import { GarbagePin, ShowPassword, ErrorSign, CheckSign } from "../../utils/SvgImages";
 import { commonStyles } from "../../utils/styles"
 import axios from "axios";
-import { GarbagePin } from "../../utils/SvgImages";
 import { getURL } from "../../utils/getURL";
 
-import EditCategory from "./EditCateGory";
+import EditCategory from "./EditCategory";
 const url = getURL()
 
-export const ViewCategory = (category,setCategoryList) => {
+export const ViewCategory = ({category,setCategoryList}) => {
   const [showContent, setShowContent] = useState(false)
   const [categoryDetails, setCategoryDetails] =useState({})
   const [fetchError, setFetchError] = useState("")
 
-  useEffect(async() => {
-    if(showContent){
+  // console.log(categoryDetails)
+  useEffect(() => {
+    const fetchCategoryDetails = async() => {
       try {
-        const categoryUrl = url + "/" + category.id
         const response = await axios.get(`${url}/TodoCategories/${category.id}`)
         setCategoryDetails(response.data)
       } catch (error) {
         setFetchError("Error retrieving data from server")
       }
+
     }
-  },[showContent])
+    if(showContent){
+      fetchCategoryDetails()
+    }
+  },[])
 
   const deleteCategory = async() => {
     try{
@@ -38,8 +43,13 @@ export const ViewCategory = (category,setCategoryList) => {
 
     return (
       <View>
-      <TouchableOpacity onPress={setShowContent(!showContent)}>
+      <TouchableOpacity onPress={() => setShowContent(!showContent)}>
+        {/* <TouchableOpacity> */}
+          <Text>
+
         {category.categoryName}
+        </Text>
+
       </TouchableOpacity>
       <SvgXml 
             xml={GarbagePin}
@@ -47,8 +57,9 @@ export const ViewCategory = (category,setCategoryList) => {
             height={24}
             onPress={() => deleteCategory()}
           />
+
         <Text style={commonStyles.errorText} >{fetchError}</Text>
-      {showContent &&
+      {showContent && categoryDetails &&
         <EditCategory category={categoryDetails} setCategoryList= {setCategoryList}/>
       }
       </View>
