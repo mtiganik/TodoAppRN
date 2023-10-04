@@ -57,10 +57,11 @@ const RegisterScreen = ({ navigation }) => {
             lastName: responseData.lastName,
             email: input.email
           })
+          axios.defaults.headers.common['Authorization'] = 'Bearer ' + responseData.token
 
-          InitializeNewUser(responseData.token)
+          InitializeNewUser()
 
-          navigation.navigate('Main');
+          navigation.navigate('Home');
 
         }else{
           console.error("Invalid response:", response)

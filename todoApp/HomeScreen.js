@@ -5,13 +5,10 @@ import { ListCategory } from "./todoCategories/ListCategory"
 
 import { View, Text, Button } from "react-native"
 
-import InitializeNewUser from "../login/InitializeNewUser"
-
 export const HomeScreen = ({navigation}) => {
 
   const {user, setUser} = useUser()
-  console.log("dsfdsadsafdfdsddsdsdasasdsadashaaa32some")
-  InitializeNewUser()
+  console.log("dsfdsddsadsasadaome")
   return (
     <View>
       <Text> Hello12</Text>

@@ -145,11 +145,13 @@ const DefaultTodoTasks = [
 const url = "https://taltech.akaver.com/api/v1/"
 
 export default InitializeNewUser = async () => {
+
+
   try {
     await Promise.all(
       DefaultCategories.map(async (category) => {
         try {
-          await axios.post(`${url}TodoCategories`, category).then(console.log("Created initial Todo categories"))
+          await axios.post(`${url}TodoCategories`, category)
 
         } catch (categoryError) {
           console.error("Error creating category:", categoryError.message)
@@ -157,16 +159,26 @@ export default InitializeNewUser = async () => {
 
       DefaultPriorities.map(async (priority) => {
         try {
-          await axios.post(`${url}TodoPriorities`, priority).then(console.log("Created initial todo Priorities"))
+          await axios.post(`${url}TodoPriorities`, priority)
 
         } catch (priorityError) {
           console.error("Error creating priority: ", priorityError.message)
         }
-      }),
+      })
+    )
 
+    console.log("Created Categories and Priorities Initial Values")
+  } catch (error) {
+    console.log(error.message)
+  }
+
+  console.log("Start of initializing some todos")
+
+  try{
+    await Promise.all(
       DefaultTodoTasks.map(async (task) => {
         try {
-          await axios.post(`${url}TodoTasks`, task).then(console.log("Created initial Tasks"))
+          await axios.post(`${url}TodoTasks`, task)
 
         } catch (taskError) {
           if (taskError.response) {
@@ -175,10 +187,11 @@ export default InitializeNewUser = async () => {
           }
           console.error("Error creating tasks: ", taskError.message)
         }})
+
     )
-    console.log("End of initializing new user")
-  } catch (error) {
-    console.log(error.message)
+    console.log("Created Todo Tasks Initial Values")
+  }catch(promiseError){
+    console.error("Error initializing tasks: ", promiseError)
   }
 }
 
