@@ -54,6 +54,7 @@ const DefaultPriorities = [
   }
 ]
 
+// Don't have Api Key, don't know what to do with these
 const DefaultListItems = [
   {
   id:uuid.v4(),
@@ -72,105 +73,85 @@ const DefaultListItems = [
 ]
 
 const datetimeNow = new Date();
-const dateTime2WeeksFromNow = datetimeNow.setDate(datetimeNow.getDate() + 14)
+const dateTime2WeeksFromNow = new Date(datetimeNow)
+dateTime2WeeksFromNow.setDate(datetimeNow.getDate() + 14)
 
 const DefaultTodoTasks = [
   {
     id: uuid.v4(),
     taskName: "Pet the dog",
     taskSort: 0,
-    createdDt: datetimeNow,
-    dueDt: dateTime2WeeksFromNow,
+    createdDt: datetimeNow.toISOString(),
+    dueDt: dateTime2WeeksFromNow.toISOString(),
     isCompleted: false,
     isArchived: false,
     todoCategoryId: uuidHomeCategory,
     todoPriorityId: uuidMediumPriority,
-    syncDt: datetimeNow
+    syncDt: datetimeNow.toISOString()
   },
   {
     id: uuid.v4(),
     taskName: "Make dinner",
     taskSort: 0,
-    createdDt: datetimeNow,
-    dueDt: dateTime2WeeksFromNow,
+    createdDt: datetimeNow.toISOString(),
+    dueDt: dateTime2WeeksFromNow.toISOString(),
     isCompleted: true,
     isArchived: true,
     todoCategoryId: uuidHomeCategory,
     todoPriorityId: uuidLowPriority,
-    syncDt: datetimeNow
+    syncDt: datetimeNow.toISOString()
   },
   {
     id: uuid.v4(),
     taskName: "Buy flowers for gf",
     taskSort: 0,
-    createdDt: datetimeNow,
-    dueDt: dateTime2WeeksFromNow,
+    createdDt: datetimeNow.toISOString(),
+    dueDt: dateTime2WeeksFromNow.toISOString(),
     isCompleted: true,
     isArchived: true,
     todoCategoryId: uuidHomeCategory,
     todoPriorityId: uuidMediumPriority,
-    syncDt: datetimeNow
+    syncDt: datetimeNow.toISOString()
   },
 
   {
     id: uuid.v4(),
     taskName: "Tell manager you want higher salary",
     taskSort: 0,
-    createdDt: datetimeNow,
-    dueDt: dateTime2WeeksFromNow,
+    createdDt: datetimeNow.toISOString(),
+    dueDt: dateTime2WeeksFromNow.toISOString(),
     isCompleted: true,
     isArchived: false,
     todoCategoryId: uuidWorkCategory,
     todoPriorityId: uuidHighPriority,
-    syncDt: datetimeNow
+    syncDt: datetimeNow.toISOString()
   },
   {
     id: uuid.v4(),
     taskName: "Ask questions from Mr. Kever",
     taskSort: 0,
-    createdDt: datetimeNow,
-    dueDt: dateTime2WeeksFromNow,
-    isCompleted: false,
+    createdDt: datetimeNow.toISOString(),
+    dueDt: dateTime2WeeksFromNow.toISOString(),
+    isCompleted: "false",
     isArchived: false,
     todoCategoryId: uuidSchoolCategory,
     todoPriorityId: uuidMediumPriority,
-    syncDt: datetimeNow
+    syncDt: datetimeNow.toISOString()
 
   }
 ]
 
 
 const url = "https://taltech.akaver.com/api/v1/"
-export const InitializeNewUser = async(token) => {
-  // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 
-  console.log("Start of InitializeNewUser")
-  console.log(JSON.stringify(DefaultListItems))
-  console.log(`${url}TodoCategories`)
+export default InitializeNewUser = async() => {
   try{
-    //DefaultCategories.map(async(a) => await axios.post(`${url}TodoCategories`,a))
-    //DefaultPriorities.map(async(a) => await axios.post(`${url}TodoPriorities`,a))
-    DefaultListItems.map(async(a)=> await axios.post(`${url}ListItems`,a))
-    //DefaultTodoTasks.map(async(a)=> await axios.post(`${url}TodoTasks`,a))
-    console.log("End of Initializing new user data")
-    // for(var a in DefaultCategories){
-    //   console.log("Element " , a)
-    //   await axios.post(`${url}TodoCategories`,a)
-    // }
-    // console.log("Response:" , response.data)
+    DefaultCategories.map(async(a) => await axios.post(`${url}TodoCategories`,a))
+    DefaultPriorities.map(async(a) => await axios.post(`${url}TodoPriorities`,a))
+    DefaultTodoTasks.map(async(a)=> await axios.post(`${url}TodoTasks`,a))
+    console.log("End of initializing new user")
   }catch(error){
-    console.log("Error:", error)
-  }
-
-}
-
-export const TestAxiosFetch = async() => {
-  console.log(DefaultListItems)
-
-  try{
-    const response = await axios.get(`${url}TodoTasks`)
-    console.log(response.data)
-  }catch(error){
-    console.log(JSON.stringify(error))
+    console.log(error.message)
   }
 }
+
