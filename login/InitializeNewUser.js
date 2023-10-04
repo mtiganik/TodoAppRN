@@ -142,9 +142,10 @@ const defaultTodoTasks = [
 
 const url = "https://taltech.akaver.com/api/v1/"
 export default InitializeNewUser = async(token) => {
-  // axios.defaults.headers.common['Authorization'] = 'Bearer ' + responseData.token
+  // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 
   console.log("Start of InitializeNewUser")
+  // console.log(JSON.stringify(DefaultCategories))
   try{
     const response = await axios.post(`${url}TodoCategories`,DefaultCategories)
     console.log("Response:" , response.data)

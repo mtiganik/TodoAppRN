@@ -9,6 +9,7 @@ import axios from "axios"
 import { getData, removeData } from '../utils/storage';
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useUser } from '../context/UserContext';
+import InitializeNewUser from './InitializeNewUser';
 
 
 const inputInitials = {
@@ -47,7 +48,6 @@ const RegisterScreen = ({ navigation }) => {
         });
         if(response && response.data){
           const responseData = response.data;
-          axios.defaults.headers.common['Authorization'] = 'Bearer ' + responseData.token
 
           setUser({
             ...user,
@@ -57,6 +57,8 @@ const RegisterScreen = ({ navigation }) => {
             lastName: responseData.lastName,
             email: input.email
           })
+
+          InitializeNewUser(responseData.token)
 
           navigation.navigate('Home');
 

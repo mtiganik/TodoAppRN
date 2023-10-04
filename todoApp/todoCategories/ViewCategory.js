@@ -60,7 +60,7 @@ export const ViewCategory = ({category,setCategoryList}) => {
 
         <Text style={commonStyles.errorText} >{fetchError}</Text>
       {showContent && categoryDetails &&
-        <EditCategory category={categoryDetails} setCategoryList= {setCategoryList}/>
+        <EditCategory inputCategory={categoryDetails} setCategoryList= {setCategoryList}/>
       }
       </View>
     )

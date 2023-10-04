@@ -24,15 +24,24 @@ const handlePress = async() => {
   if(!/\S+@\S+\.\S+/.test(email)){
     setEmailError('Email is invalid')
   }else{
+    console.log("Start of handlePress")
+    console.log(email) // gives email
+    console.log(password) // gives password
+
     try{
+      axios.defaults.headers.common['Authorization'] = null
+
       const response = await axios.post(url,{
         email: email,
         password: password
       })
       const responseData = response.data;
-      await AsyncStorage.setItem('userData', JSON.stringify(responseData))
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + responseData.token
+      console.log("Set Storage")
+      console.log(JSON.stringify(responseData))
 
+      await AsyncStorage.setItem('userData', JSON.stringify(responseData))
+
+      console.log("Set user")
       setUser((prevUser) => ({
         ...prevUser,
         token: responseData.token,
@@ -41,12 +50,17 @@ const handlePress = async() => {
         lastName: responseData.lastName,
         email: email
       }));
-      navigation.navigate('Home');
+      console.log("Navigate to home")
+      navigation.navigate('Main');
 
     }catch(error){
       console.error('AsyncStorage Error:', error);
-
-      setServerResponse(error)
+      console.error('Axios Error:', error.message);
+      if(error.response && error.response.data && error.response.data.messages)
+      setServerResponse(error.response.data.messages)
+    else{
+      setServerResponse(' An error occured while loggin in.')
+    }
     }
   }
 }
