@@ -54,7 +54,7 @@ const DefaultPriorities = [
   }
 ]
 
-const defaultListItems = [
+const DefaultListItems = [
   {
   id:uuid.v4(),
   description: "Pet the Dog",
@@ -74,7 +74,7 @@ const defaultListItems = [
 const datetimeNow = new Date();
 const dateTime2WeeksFromNow = datetimeNow.setDate(datetimeNow.getDate() + 14)
 
-const defaultTodoTasks = [
+const DefaultTodoTasks = [
   {
     id: uuid.v4(),
     taskName: "Pet the dog",
@@ -141,16 +141,36 @@ const defaultTodoTasks = [
 
 
 const url = "https://taltech.akaver.com/api/v1/"
-export default InitializeNewUser = async(token) => {
+export const InitializeNewUser = async(token) => {
   // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 
   console.log("Start of InitializeNewUser")
-  // console.log(JSON.stringify(DefaultCategories))
+  console.log(JSON.stringify(DefaultListItems))
+  console.log(`${url}TodoCategories`)
   try{
-    const response = await axios.post(`${url}TodoCategories`,DefaultCategories)
-    console.log("Response:" , response.data)
+    //DefaultCategories.map(async(a) => await axios.post(`${url}TodoCategories`,a))
+    //DefaultPriorities.map(async(a) => await axios.post(`${url}TodoPriorities`,a))
+    DefaultListItems.map(async(a)=> await axios.post(`${url}ListItems`,a))
+    //DefaultTodoTasks.map(async(a)=> await axios.post(`${url}TodoTasks`,a))
+    console.log("End of Initializing new user data")
+    // for(var a in DefaultCategories){
+    //   console.log("Element " , a)
+    //   await axios.post(`${url}TodoCategories`,a)
+    // }
+    // console.log("Response:" , response.data)
   }catch(error){
     console.log("Error:", error)
   }
 
+}
+
+export const TestAxiosFetch = async() => {
+  console.log(DefaultListItems)
+
+  try{
+    const response = await axios.get(`${url}TodoTasks`)
+    console.log(response.data)
+  }catch(error){
+    console.log(JSON.stringify(error))
+  }
 }

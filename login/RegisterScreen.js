@@ -60,7 +60,7 @@ const RegisterScreen = ({ navigation }) => {
 
           InitializeNewUser(responseData.token)
 
-          navigation.navigate('Home');
+          navigation.navigate('Main');
 
         }else{
           console.error("Invalid response:", response)

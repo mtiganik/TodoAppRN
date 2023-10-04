@@ -44,13 +44,14 @@ const MainScreen = ({navigation}) => {
   useEffect(() => {
     if (user === null) return null; 
     else if (user.token) {
-      console.log(user.token)
+
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token
 
       navigation.navigate("Home")
     }
     else  {
-      console.log("No token found. Navigating to Login screen")
+      axios.defaults.headers.common['Authorization'] = null
+
       return navigation.navigate("Login")
     }
   }, [user, navigation])

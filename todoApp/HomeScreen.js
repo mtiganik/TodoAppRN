@@ -5,14 +5,14 @@ import { ListCategory } from "./todoCategories/ListCategory"
 
 import { View, Text, Button } from "react-native"
 
-import InitializeNewUser from "../login/InitializeNewUser"
+import { InitializeNewUser, TestAxiosFetch } from "../login/InitializeNewUser"
 
 export const HomeScreen = ({navigation}) => {
 
   const {user, setUser} = useUser()
-
+  console.log("1ddsaasshaaasome")
   // InitializeNewUser(user.token)
-  console.log("from homescreen434343434334")
+  TestAxiosFetch()
   return (
     <View>
       <Text> Hello12</Text>
