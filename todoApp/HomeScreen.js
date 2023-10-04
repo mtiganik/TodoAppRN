@@ -10,7 +10,7 @@ import InitializeNewUser from "../login/InitializeNewUser"
 export const HomeScreen = ({navigation}) => {
 
   const {user, setUser} = useUser()
-  console.log("dsfdsaddsaddsadadsadsdasassdsadsaaadsadsasshaaa32some")
+  console.log("dsfdsadsafdfdsddsdsdasasdsadashaaa32some")
   InitializeNewUser()
   return (
     <View>

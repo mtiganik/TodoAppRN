@@ -8,22 +8,22 @@ const uuidSchoolCategory = uuid.v4()
 const uuidHomeCategory = uuid.v4()
 
 const DefaultCategories = [
-{
-  id: uuidWorkCategory,
-  categoryName: "Work",
-  categorySort: 0
+  {
+    id: uuidWorkCategory,
+    categoryName: "Work",
+    categorySort: 0
 
-}, 
-{
-  id: uuidSchoolCategory,
-  categoryName: "School",
-  categorySort: 1
-},
-{
-  id: uuidHomeCategory,
-  categoryName: "Home",
-  categorySort: 2
-}
+  },
+  {
+    id: uuidSchoolCategory,
+    categoryName: "School",
+    categorySort: 1
+  },
+  {
+    id: uuidHomeCategory,
+    categoryName: "Home",
+    categorySort: 2
+  }
 ]
 
 const uuidHighPriority = uuid.v4()
@@ -32,21 +32,21 @@ const uuidLowPriority = uuid.v4()
 
 const DefaultPriorities = [
   {
-    id:uuidHighPriority,
+    id: uuidHighPriority,
     appUserId: userID,
     priorityName: "High",
     prioritySort: 1,
     syncDt: new Date()
   },
   {
-    id:uuidMediumPriority,
+    id: uuidMediumPriority,
     appUserId: userID,
     priorityName: "Medium",
     prioritySort: 2,
     syncDt: new Date()
   },
   {
-    id:uuidLowPriority,
+    id: uuidLowPriority,
     appUserId: userID,
     priorityName: "Low",
     prioritySort: 2,
@@ -57,19 +57,19 @@ const DefaultPriorities = [
 // Don't have Api Key, don't know what to do with these
 const DefaultListItems = [
   {
-  id:uuid.v4(),
-  description: "Pet the Dog",
-  completed: false
-},{
-  id:uuid.v4(),
-  description: "Go to gym",
-  completed: false
-},
-{
-  id:uuid.v4(),
-  description: "Make dinner",
-  completed: true
-}
+    id: uuid.v4(),
+    description: "Pet the Dog",
+    completed: false
+  }, {
+    id: uuid.v4(),
+    description: "Go to gym",
+    completed: false
+  },
+  {
+    id: uuid.v4(),
+    description: "Make dinner",
+    completed: true
+  }
 ]
 
 const datetimeNow = new Date();
@@ -132,7 +132,7 @@ const DefaultTodoTasks = [
     taskSort: 0,
     createdDt: datetimeNow.toISOString(),
     dueDt: dateTime2WeeksFromNow.toISOString(),
-    isCompleted: "false",
+    isCompleted: false,
     isArchived: false,
     todoCategoryId: uuidSchoolCategory,
     todoPriorityId: uuidMediumPriority,
@@ -144,13 +144,40 @@ const DefaultTodoTasks = [
 
 const url = "https://taltech.akaver.com/api/v1/"
 
-export default InitializeNewUser = async() => {
-  try{
-    DefaultCategories.map(async(a) => await axios.post(`${url}TodoCategories`,a))
-    DefaultPriorities.map(async(a) => await axios.post(`${url}TodoPriorities`,a))
-    DefaultTodoTasks.map(async(a)=> await axios.post(`${url}TodoTasks`,a))
+export default InitializeNewUser = async () => {
+  try {
+    await Promise.all(
+      DefaultCategories.map(async (category) => {
+        try {
+          await axios.post(`${url}TodoCategories`, category).then(console.log("Created initial Todo categories"))
+
+        } catch (categoryError) {
+          console.error("Error creating category:", categoryError.message)
+        }}),
+
+      DefaultPriorities.map(async (priority) => {
+        try {
+          await axios.post(`${url}TodoPriorities`, priority).then(console.log("Created initial todo Priorities"))
+
+        } catch (priorityError) {
+          console.error("Error creating priority: ", priorityError.message)
+        }
+      }),
+
+      DefaultTodoTasks.map(async (task) => {
+        try {
+          await axios.post(`${url}TodoTasks`, task).then(console.log("Created initial Tasks"))
+
+        } catch (taskError) {
+          if (taskError.response) {
+            console.error("Task creation failed with status code:", taskError.response.status);
+            console.error("Error response data:", taskError.response.data);
+          }
+          console.error("Error creating tasks: ", taskError.message)
+        }})
+    )
     console.log("End of initializing new user")
-  }catch(error){
+  } catch (error) {
     console.log(error.message)
   }
 }
