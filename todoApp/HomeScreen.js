@@ -12,8 +12,8 @@ export const HomeScreen = ({navigation}) => {
   return (
     <View>
       <Text> Hello12</Text>
-      {/* <Text>Hello {user.firstName} {user.lastName}</Text> 
-      <ListCategory /> */}
+      <Text>Hello {user.firstName} {user.lastName}</Text> 
+      <ListCategory />
       <LogoutButton navigation={navigation}/> 
     </View>
   )
