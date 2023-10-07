@@ -12,7 +12,6 @@ const DefaultCategories = [
     id: uuidWorkCategory,
     categoryName: "Work",
     categorySort: 0
-
   },
   {
     id: uuidSchoolCategory,
@@ -33,44 +32,22 @@ const uuidLowPriority = uuid.v4()
 const DefaultPriorities = [
   {
     id: uuidHighPriority,
-    appUserId: userID,
     priorityName: "High",
-    prioritySort: 1,
-    syncDt: new Date()
+    prioritySort: 6,
   },
   {
     id: uuidMediumPriority,
     appUserId: userID,
     priorityName: "Medium",
-    prioritySort: 2,
-    syncDt: new Date()
+    prioritySort: 4,
   },
   {
     id: uuidLowPriority,
-    appUserId: userID,
     priorityName: "Low",
     prioritySort: 2,
-    syncDt: new Date()
   }
 ]
 
-// Don't have Api Key, don't know what to do with these
-const DefaultListItems = [
-  {
-    id: uuid.v4(),
-    description: "Pet the Dog",
-    completed: false
-  }, {
-    id: uuid.v4(),
-    description: "Go to gym",
-    completed: false
-  },
-  {
-    id: uuid.v4(),
-    description: "Make dinner",
-    completed: true
-  }
-]
 
 const datetimeNow = new Date();
 const dateTime2WeeksFromNow = new Date(datetimeNow)
@@ -78,66 +55,40 @@ dateTime2WeeksFromNow.setDate(datetimeNow.getDate() + 14)
 
 const DefaultTodoTasks = [
   {
-    id: uuid.v4(),
     taskName: "Pet the dog",
     taskSort: 0,
-    createdDt: datetimeNow.toISOString(),
     dueDt: dateTime2WeeksFromNow.toISOString(),
-    isCompleted: false,
-    isArchived: false,
     todoCategoryId: uuidHomeCategory,
     todoPriorityId: uuidMediumPriority,
-    syncDt: datetimeNow.toISOString()
   },
   {
-    id: uuid.v4(),
     taskName: "Make dinner",
     taskSort: 0,
-    createdDt: datetimeNow.toISOString(),
     dueDt: dateTime2WeeksFromNow.toISOString(),
-    isCompleted: true,
-    isArchived: true,
     todoCategoryId: uuidHomeCategory,
     todoPriorityId: uuidLowPriority,
-    syncDt: datetimeNow.toISOString()
   },
   {
-    id: uuid.v4(),
-    taskName: "Buy flowers for gf",
+    taskName: "Read book",
     taskSort: 0,
-    createdDt: datetimeNow.toISOString(),
     dueDt: dateTime2WeeksFromNow.toISOString(),
-    isCompleted: true,
-    isArchived: true,
     todoCategoryId: uuidHomeCategory,
     todoPriorityId: uuidMediumPriority,
-    syncDt: datetimeNow.toISOString()
   },
 
   {
-    id: uuid.v4(),
     taskName: "Tell manager you want higher salary",
     taskSort: 0,
-    createdDt: datetimeNow.toISOString(),
     dueDt: dateTime2WeeksFromNow.toISOString(),
-    isCompleted: true,
-    isArchived: false,
     todoCategoryId: uuidWorkCategory,
     todoPriorityId: uuidHighPriority,
-    syncDt: datetimeNow.toISOString()
   },
   {
-    id: uuid.v4(),
     taskName: "Ask questions from Mr. Kever",
     taskSort: 0,
-    createdDt: datetimeNow.toISOString(),
     dueDt: dateTime2WeeksFromNow.toISOString(),
-    isCompleted: false,
-    isArchived: false,
     todoCategoryId: uuidSchoolCategory,
     todoPriorityId: uuidMediumPriority,
-    syncDt: datetimeNow.toISOString()
-
   }
 ]
 
