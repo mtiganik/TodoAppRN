@@ -8,8 +8,6 @@ const url = getURL()
 
 export default EditCategory = ({inputCategory, setCategoryList}) => {
   const [error, setError] = useState("")
-  // const [categoryName, setCategoryName] = useState(category.categoryName)
-  // const [categorySort, setCategorySort] = useState(category.categorySort)
   const [category, setCategory] = useState({})
   console.log(inputCategory)
   useEffect(() => {
