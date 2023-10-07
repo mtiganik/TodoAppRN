@@ -3,6 +3,7 @@ import { LogoutButton } from "./LogoutButton"
 import { ListCategory } from "./todoCategories/ListCategory"
 
 import { View, Text, Button, StyleSheet } from "react-native"
+import { ListTask } from "./todoTasks/listTasks"
 
 export const HomeScreen = ({navigation}) => {
 
@@ -18,6 +19,7 @@ export const HomeScreen = ({navigation}) => {
       <Button onPress={handleCategoryPress} title="Categories" />      
       <LogoutButton navigation={navigation}/> 
       </View>
+      <ListTask/>
     </View>
   )
 }
