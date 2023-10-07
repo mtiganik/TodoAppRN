@@ -38,7 +38,7 @@ export const ListCategory = () => {
       <Text style={myStyle.textStyle}>Todo categories</Text>
       <Button title={showCreateCategory ? "Hide create" : "Create"} onPress={toggleCreateCategory} />
       </View>
-      {showCreateCategory && <CreateCategory/> }
+      {showCreateCategory && <CreateCategory setCategoryList={setCategoryList}/> }
 
 
       {categoryList.length > 0 &&

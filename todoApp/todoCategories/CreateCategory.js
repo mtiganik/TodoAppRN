@@ -4,10 +4,9 @@ import axios from "axios";
 import { commonStyles } from "../../utils/styles";
 import { getURL } from "../../utils/getURL";
 
- //const url = "https://taltech.akaver.com/api/v1/TodoCategories"
 const url = getURL()
 
-export const CreateCategory = () => {
+export const CreateCategory = ({setCategoryList}) => {
   const [categoryName, setCategoryName] = useState("")
   const [serverResponse, setServerResponse] = useState("")
   const [isPostSuccesfull, setIsPostSuccesfull] = useState(false)
@@ -25,6 +24,10 @@ export const CreateCategory = () => {
           categoryName: categoryName,
           categorySort: sortValue
         })
+        const newCategory = response.data
+        setCategoryList((prevList) => [...prevList, newCategory])
+
+
         setIsPostSuccesfull(true)
         setServerResponse("Succesfully added new category")
         setCategoryName("")
