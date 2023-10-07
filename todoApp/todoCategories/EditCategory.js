@@ -20,7 +20,7 @@ export default EditCategory = ({inputCategory, setCategoryList}) => {
 
   const handleEdit = async() => {
     try{
-      const response = axios.put(`${url}/TodoCategories/${category.id}`,{
+      const response = axios.put(`${url}TodoCategories/${category.id}`,{
         categoryName: category.categoryName,
         categorySort: category.categorySort
       })

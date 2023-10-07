@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { TextInput, TouchableOpacity, View, Text } from "react-native"
+import { TextInput, TouchableOpacity, View, Text, StyleSheet } from "react-native"
 import { SvgXml } from "react-native-svg";
 import { GarbagePin, ShowPassword, ErrorSign, CheckSign } from "../../utils/SvgImages";
 import { commonStyles } from "../../utils/styles"
@@ -14,11 +14,10 @@ export const ViewCategory = ({category,setCategoryList}) => {
   const [categoryDetails, setCategoryDetails] =useState({})
   const [fetchError, setFetchError] = useState("")
 
-  // console.log(categoryDetails)
   useEffect(() => {
     const fetchCategoryDetails = async() => {
       try {
-        const response = await axios.get(`${url}/TodoCategories/${category.id}`)
+        const response = await axios.get(`${url}TodoCategories/${category.id}`)
         setCategoryDetails(response.data)
       } catch (error) {
         setFetchError("Error retrieving data from server")
@@ -32,38 +31,63 @@ export const ViewCategory = ({category,setCategoryList}) => {
 
   const deleteCategory = async() => {
     try{
-      const response = await axios.delete(`${url}/TodoCategories/${category.id}`)
+
+      const response = await axios.delete(`${url}TodoCategories/${category.id}`)
+      
+
       setCategoryList((prevCategories) => 
       prevCategories.filter((cat) => cat.id !== category.id))
     }catch(error){
       setFetchError(error)
     }
-
   }
 
     return (
-      <View>
-      <TouchableOpacity onPress={() => setShowContent(!showContent)}>
-        {/* <TouchableOpacity> */}
-          <Text>
+      <View style={styles.container}>
 
-        {category.categoryName}
-        </Text>
+        <TouchableOpacity onPress={() => setShowContent(!showContent)} 
+        style={[styles.clickableArea, showContent && styles.expandedArea]}
+>
+        <Text style={styles.categoryName}>{category.categoryName}</Text>
 
-      </TouchableOpacity>
-      <SvgXml 
-            xml={GarbagePin}
-            width={24}
-            height={24}
-            onPress={() => deleteCategory()}
-          />
+        <SvgXml
+          xml={GarbagePin}
+          width={24}
+          height={24}
+          onPress={() => deleteCategory()}
+          
+        />
+        </TouchableOpacity>
 
+        {showContent && categoryDetails &&
+          <EditCategory inputCategory={categoryDetails} setCategoryList={setCategoryList} />
+        }
         <Text style={commonStyles.errorText} >{fetchError}</Text>
-      {showContent && categoryDetails &&
-        <EditCategory inputCategory={categoryDetails} setCategoryList= {setCategoryList}/>
-      }
       </View>
     )
   }
 
 
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#c9c9c9',
+    borderWidth: 2,
+    borderRadius: 10,
+    margin: 5,
+  },
+  clickableArea: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    backgroundColor:"gray"
+  },
+  expandedArea: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  categoryName: {
+    flex: 6, // Takes 6x space
+    fontSize:16,
+  },
+});

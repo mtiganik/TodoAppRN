@@ -11,9 +11,11 @@ import RegisterScreen from './login/RegisterScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HomeScreen } from './todoApp/HomeScreen';
 import { LogoutButton } from './todoApp/LogoutButton';
+import { ListCategory } from './todoApp/todoCategories/ListCategory';
 import axios from "axios"
 
 const Stack = createNativeStackNavigator();
+
 
 export default function App() {
   return (
@@ -25,6 +27,7 @@ export default function App() {
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Logout" component={LogoutButton} />
+          <Stack.Screen name="Categories" component={ListCategory} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider >
@@ -32,9 +35,12 @@ export default function App() {
   );
 }
 const MainScreen = ({navigation}) => {
+
+
   const {user, setUser} = useUser()
   useEffect(() => {
     const fetchData = async () => {
+      // getUserData from Storage
       const data = await getUserData();
       setUser(data)
     }
