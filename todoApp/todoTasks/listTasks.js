@@ -16,16 +16,25 @@ export const ListTask = () => {
   useEffect( () => {
     const fetchData = async() => {
       try{
+        // console.log("Before axios")
         const [tasksResponse, categoriesResponse, prioritiesResponse] 
         = await Promise.all([
           axios.get(`${url}TodoTasks`),
           axios.get(`${url}TodoCategories`),
           axios.get(`${url}TodoPriorities`)
         ])
-        setTasks(tasksResponse.data);
-        setCategories(categoriesResponse.data);
-        setPriorities(prioritiesResponse.data);
-        setError("")
+        // console.log("After axios")
+        // console.log(tasksResponse.data)
+        // console.log(categoriesResponse.data)
+        // console.log(prioritiesResponse.data)
+        if (tasksResponse.data && categoriesResponse.data && prioritiesResponse.data){
+          setCategories(categoriesResponse.data);
+          setPriorities(prioritiesResponse.data);
+          setTasks(tasksResponse.data);
+          setError("")
+        }else{
+          setError('Data is missing from the response')
+        }
       }catch(error){
         console.log("Error fetching data: " + error)
         setError("Error retrieving data from server")
