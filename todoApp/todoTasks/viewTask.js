@@ -7,14 +7,13 @@ import axios from "axios";
 
 const url = getURL()
 
-export const ViewTask = ({task, setTaskList}) => {
-
+export const ViewTask = ({task, category, priority, setTasks}) => {
 
   return(
     <View style={styles.container}>
       <Text>{task.taskName}</Text>
-      <Text>Category name here</Text>
-      <Text>Priority name here</Text>
+      <Text>Category: {category.categoryName}</Text>
+      <Text>Priority: {priority.priorityName}</Text>
 
     </View>
   )

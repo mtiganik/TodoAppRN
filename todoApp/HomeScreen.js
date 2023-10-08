@@ -14,7 +14,7 @@ export const HomeScreen = ({navigation}) => {
   }
   return (
     <View>
-      <Text>Hello {user.firstName} {user.lastName}</Text> 
+      <Text>Hello12 {user.firstName} {user.lastName}</Text> 
       <View style={styles.header}>
       <Button onPress={handleCategoryPress} title="Categories" />      
       <LogoutButton navigation={navigation}/> 
