@@ -18,7 +18,6 @@ export const ViewTask = ({task, category, priority, setTasks}) => {
 
   const onMarkAsDone = async() => {
     try{
-      //const response = 
       await axios.put(`${url}TodoTasks/${task.id}`,{
         ...task,
         isCompleted: !isCompleted

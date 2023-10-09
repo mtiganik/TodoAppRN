@@ -4,7 +4,7 @@ import { ListCategory } from "./todoCategories/ListCategory"
 
 import { View, Text, Button, StyleSheet } from "react-native"
 import { ListTask } from "./todoTasks/listTasks"
-
+import { DataProvider } from "../context/DataContext"
 export const HomeScreen = ({navigation}) => {
 
   const {user, setUser} = useUser()
@@ -12,15 +12,21 @@ export const HomeScreen = ({navigation}) => {
   const handleCategoryPress = () => {
     navigation.navigate("Categories")
   }
+  const handleNewTaskCreate = () => {
+    navigation.navigate("CreateTask")
+  }
   return (
-    <View>
-      <Text>Hello12 {user.firstName} {user.lastName}</Text> 
-      <View style={styles.header}>
-      <Button onPress={handleCategoryPress} title="Categories" />      
-      <LogoutButton navigation={navigation}/> 
+    <DataProvider>
+      <View>
+        <Text>Hello12 {user.firstName} {user.lastName}</Text>
+        <View style={styles.header}>
+          <Button onPress={handleNewTaskCreate} title="create new TODO" />
+          <Button onPress={handleCategoryPress} title="Categories" />
+          <LogoutButton navigation={navigation} />
+        </View>
+        <ListTask />
       </View>
-      <ListTask/>
-    </View>
+    </DataProvider>
   )
 }
 
