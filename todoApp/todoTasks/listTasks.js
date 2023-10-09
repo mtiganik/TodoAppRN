@@ -23,10 +23,6 @@ export const ListTask = () => {
           axios.get(`${url}TodoCategories`),
           axios.get(`${url}TodoPriorities`)
         ])
-        // console.log("After axios")
-        // console.log(tasksResponse.data)
-        // console.log(categoriesResponse.data)
-        // console.log(prioritiesResponse.data)
         if (tasksResponse.data && categoriesResponse.data && prioritiesResponse.data){
           setCategories(categoriesResponse.data);
           setPriorities(prioritiesResponse.data);
@@ -41,7 +37,7 @@ export const ListTask = () => {
       }
     }
     fetchData();
-  }, []);
+  }, [tasks]);
 
   function mapById(array){
     return array.reduce((acc, obj) =>{

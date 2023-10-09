@@ -3,7 +3,6 @@ import { SvgXml } from "react-native-svg";
 import { WarningSign } from "../../utils/SvgImages";
 
 
-
 export const DisplayPriority = ({priority}) => {
   let textColor = 'black'; 
 
