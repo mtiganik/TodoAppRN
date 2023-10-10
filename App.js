@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HomeScreen } from './todoApp/HomeScreen';
 import { LogoutButton } from './todoApp/LogoutButton';
 import { ListCategory } from './todoApp/todoCategories/ListCategory';
-import { CreateTask } from './todoApp/todoTasks/createTask';
+import { CreateTask } from './todoApp/todoTasks/createTask/createTask';
 import axios from "axios"
 
 const Stack = createNativeStackNavigator();
