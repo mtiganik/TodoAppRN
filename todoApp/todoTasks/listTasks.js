@@ -18,10 +18,10 @@ export const ListTask = () => {
 
   const categoryMap = mapById(categories);
   const priorityMap = mapById(priorities);
-
+  // console.log("tasks: ", tasks)
   return(
     <View> 
-      {tasks.length > 0 &&
+      {tasks &&
         (
           <ScrollView>
         {tasks.map(task => (

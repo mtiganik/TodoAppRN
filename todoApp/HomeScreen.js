@@ -4,14 +4,15 @@ import { ListCategory } from "./todoCategories/ListCategory"
 
 import { View, Text, Button, StyleSheet } from "react-native"
 import { ListTask } from "./todoTasks/listTasks"
-import { DataProvider } from "../context/DataContext"
+import { DataProvider, useDataContext } from "../context/DataContext"
 import { commonStyles } from "../utils/styles"
 
 
 export const HomeScreen = ({navigation, route}) => {
-  const successMessage = route.params ? route.params.successMessage : '';
+  const NavigationSuccessMessage = route.params ? route.params.successMessage : '';
   const {user, setUser} = useUser()
 
+  
   const handleCategoryPress = () => {
     navigation.navigate("Categories")
   }
@@ -21,11 +22,11 @@ export const HomeScreen = ({navigation, route}) => {
 
   return (
     <DataProvider>
-
+      {NavigationSuccessMessage && (
+        <Text style={commonStyles.successText}>{NavigationSuccessMessage}</Text>
+      )}
+      <ShowSuccesMessage />
       <View>
-        {successMessage && (
-          <Text style={commonStyles.successText}>{successMessage}</Text>
-        )}
         <Text>Hello12 {user.firstName} {user.lastName}</Text>
         <View style={styles.header}>
           <Button onPress={handleNewTaskCreate} title="create new todo" />
@@ -35,7 +36,18 @@ export const HomeScreen = ({navigation, route}) => {
         <ListTask />
       </View>
       </DataProvider>
+  )
+}
 
+const ShowSuccesMessage = () => {
+  const { successMessage } = useDataContext();
+  console.log(successMessage)
+  return (
+    <View>
+      {successMessage && (
+        <Text style={commonStyles.successText}>{successMessage}</Text>
+      )}
+    </View>
   )
 }
 

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import { getURL } from "../../utils/getURL";
-import { View, ScrollView, Button, Text, StyleSheet } from "react-native";
+import { View, ScrollView, Button, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { commonStyles } from "../../utils/styles";
 import axios from "axios";
-
+import { useDataContext } from "../../context/DataContext";
 
 import { SvgXml } from "react-native-svg";
 import { GarbagePin, CheckSign } from "../../utils/SvgImages";
@@ -13,19 +13,22 @@ import {DisplayPriority} from "./displayPriority";
 const url = getURL()
 
 export const ViewTask = ({task, category, priority, setTasks}) => {
+
+  const { setSuccessMessage} = useDataContext();
+
   const [error, setError] = useState("")
   const [isCompleted, setIsCompleted] = useState(task.isCompleted)
 
   const onMarkAsDone = async() => {
     try{
-      await axios.put(`${url}TodoTasks/${task.id}`,{
+      await axios.put(`${url}TodoTasks/${task.id}`, {
         ...task,
         isCompleted: !isCompleted
       })
       setTasks((prevTasks) =>
-      prevTasks.map((prevTask) =>
-      prevTask.taskId === task.taskId ?
-      { ...prevTask, isCompleted: !isCompleted } : prevTask)
+        prevTasks.map((prevTask) =>
+          prevTask.taskId === task.taskId ?
+            { ...prevTask, isCompleted: !isCompleted } : prevTask)
       )
       setIsCompleted(!isCompleted)
 
@@ -34,58 +37,95 @@ export const ViewTask = ({task, category, priority, setTasks}) => {
       setError("Error")
     }
   }
-  const onRemoveTask = async() => {
-    try{
-      console.log(`${url}TodoTasks/${task.id}`)
-      //const response = 
+  const onRemoveTask = async () => {
+    try {
       await axios.delete(`${url}TodoTasks/${task.id}`)
-      setTasks((prevTasks) => 
-      prevTasks.filter((task) => task.id !== category.id))
-
-    }catch(error){
-      console.error("Error removing data: " , error)
+      setSuccessMessage("Succesfully removed task")
+      setTasks((prevTasks) =>{
+        return prevTasks.filter((curr) => curr.id !== task.id)
+      })
+    } catch (error) {
+      console.error("Error removing data: ", error)
       setError("")
     }
-
   }
+
   return(
     <View style={[styles.container,{
       backgroundColor: isCompleted ? "green" : "red"
     }]}>
-      <Text>{task.taskName}</Text>
-      <Text>Category: {category.categoryName}</Text>
-      <Text>Completed: {isCompleted ? "Yes" : "No"}</Text>
-      <Text>Is Archieved: {category.isArchived ? "Yes" : "No"}</Text>
-      <Text>Created: {category.createdDt}</Text>
-      <Text>Due Date: {category.dueDt}</Text>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-      <SvgXml
-        xml={GarbagePin}
-        width={25}
-        height={25}
-        onPress={onRemoveTask}
-      />
-      <SvgXml
-        xml={CheckSign}
-        width={25}
-        height={25}
-        onPress={onMarkAsDone}
-      />
+      <View style={styles.leftContent}>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>{task.taskName}</Text>
+        <Text>Category: {category.categoryName}</Text>
+        <Text>Completed: {isCompleted ? "Yes" : "No"}</Text>
+        <Text>Is Archieved: {category.isArchived ? "Yes" : "No"}</Text>
+        <Text>Created: {category.createdDt}</Text>
+        <Text>Due Date: {category.dueDt}</Text>
+        <DisplayPriority priority={priority} />
+        <Text style={commonStyles.errorText}>{error}</Text>
       </View>
 
 
-      <DisplayPriority priority = {priority}/>
-      <Text style={commonStyles.errorText}>{error}</Text>
+      <View style={styles.rightContent}>
+      
+        <TouchableOpacity onPress={onRemoveTask}>
+          <View style={styles.button}>
+            <SvgXml
+              xml={GarbagePin}
+              width={25}
+              height={25}
+            />
+            <Text style={styles.buttonText}>DELETE</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={onMarkAsDone}>
+          <View style={styles.button} >
+            <SvgXml
+              xml={CheckSign}
+              width={25}
+              height={25}
+
+            />
+            <Text style={styles.buttonText}>MARK DONE</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
+
     </View>
   )
 }
 
 
 const styles = StyleSheet.create({
+  button:{
+    flexDirection: 'row',
+    alignItems:"center",
+    backgroundColor:"#24a0ed",
+    borderRadius:5,
+    margin:3,
+    padding:3
+
+  },
+  buttonText:{
+    fontWeight:"500",
+    color:"white"
+  },
   container:{
     borderWidth:1,
     borderRadius:5,
     padding:5,
-    margin:5
+    margin:5,
+    flex:1,
+    justifyContent: 'center',
+    flexDirection: 'row',
+
+  },
+  leftContent:{
+    flex:3
+  },
+  rightContent:{
+    flex:2,
   }
 })

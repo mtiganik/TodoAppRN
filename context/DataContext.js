@@ -8,12 +8,14 @@ const url = getURL();
 export const useDataContext = () => useContext(DataContext);
 
 export const DataProvider = ({children}) => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState();
   const [categories, setCategories] = useState([]);
   const [priorities, setPriorities] = useState([]);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState();
 
   useEffect(() => {
+    console.log("in UseEffect222332")
     const fetchData = async () => {
       try {
         const [tasksResponse, categoriesResponse, prioritiesResponse] =
@@ -37,7 +39,7 @@ export const DataProvider = ({children}) => {
       }
     };
     fetchData();
-  }, []);
+  }, [setTasks]);
 
   const contextValue = {
     tasks,
@@ -47,6 +49,9 @@ export const DataProvider = ({children}) => {
     priorities,
     setPriorities,
     error,
+    setError,
+    successMessage,
+    setSuccessMessage
   };
 
   return <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>

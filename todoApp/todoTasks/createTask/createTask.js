@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet, Button, ScrollView } from "react-native"
 import { useState } from "react";
-// import { PriorityDropDown } from "./priorityDropDown";
+
 import { DropDownMenu } from "./dropDownMenu";
 import { SortInput } from "../../../utils/sortInput";
 import { commonStyles } from "../../../utils/styles";
@@ -9,7 +9,6 @@ import { DataProvider } from "../../../context/DataContext";
 import { CalendarItem } from "../../../utils/calendarItem";
 import axios from "axios";
 import { getURL } from "../../../utils/getURL";
-// import {`[Calendar](#calendar), [CalendarList](#calendarlist), [Agenda](#agenda)`} from 'react-native-calendars';
 
 const url = getURL();
 
@@ -40,9 +39,10 @@ export const CreateTask = ({navigation}) => {
         todoCategoryId: selectedCategoryId,
         todoPriorityId: selectedPriorityId
       })
+      setTasks((prevTasks) => [...prevTasks, response.data])
 
-      const backToHome = "Succesfully created new Task" 
-      navigation.navigate("Home", {successMessage: backToHome})
+      
+      navigation.navigate("Home", {successMessage:"Successfully created new Task"})
 
     }catch(error){
       console.error("Error occured in createTask: ", error)
