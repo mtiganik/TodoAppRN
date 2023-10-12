@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
+import api from "../../utils/refreshToken";
 import { ViewCategory } from "./ViewCategory";
 import { TouchableOpacity } from "react-native"
 import { getURL } from "../../utils/getURL";
@@ -17,7 +18,7 @@ export const ListCategory = () => {
   useEffect( () => {
     const fetchData = async() => {
       try{
-        const response = await axios.get(url)
+        const response = await api.get(url)
         setCategoryList(response.data)
         setError("")
 

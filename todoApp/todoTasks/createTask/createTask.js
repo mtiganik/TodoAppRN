@@ -1,14 +1,19 @@
-import { View, Text, TextInput } from "react-native"
+import { View, Text, TextInput, StyleSheet } from "react-native"
 import { useState } from "react";
-import { useDataContext } from "../../../context/DataContext"
-import { PriorityDropDown } from "./priorityDropDown";
+// import { PriorityDropDown } from "./priorityDropDown";
 import { DropDownMenu } from "./dropDownMenu";
+import { SortInput } from "../../../utils/sortInput";
+import { commonStyles } from "../../../utils/styles";
+import { useDataContext } from "../../../context/DataContext"
+import { DataProvider } from "../../../context/DataContext";
 
 export const CreateTask = () => {
-  // const {priorities, categories} = useDataContext();
+  const {tasks, setTasks, categories, priorities, error} = useDataContext();
   const [selectedPriorityId, setSelectedPriorityId] = useState("")
-
-  const priorities = [
+  const [selectedCategory, setSelectedCategory] = useState("")
+  const [taskName, setTaskName] = useState("")
+  const [sortValue, setSortValue] = useState("")
+  const priorities2 = [
     { id: '1', priorityName: 'High' },
     { id: '2', priorityName: 'Medium' },
     { id: '3', priorityName: 'Low' },
@@ -19,27 +24,47 @@ export const CreateTask = () => {
     setSelectedPriorityId(priorityId)
   }
 
+  const handleSelectCategory = (categoryId) => {
+    setSelectedCategory(categoryId)
+  }
+
   return(
     <View>
 
-      <Text>In create new Todo</Text>
-      {/* <TextInput 
+      <Text>Create new Todo</Text>
+      <TextInput 
       style={styles.textInputStyle}
-      placeholder="Category name"
-      value={categoryName}
-      onChangeText={setCategoryName}
+      placeholder="Task name"
+      value={taskName}
+      onChangeText={setTaskName}
       />
-              <TextInput 
-        style={{flex:2, borderWidth:1, padding:5, fontSize:20, marginRight:10, borderRadius:10}}
-        placeholder="Sort"
-        value={sortValue}
-        onChangeText={handleSortChange}
-        keyboardType="numeric"
-        /> */}
 
-        <PriorityDropDown priorities={priorities} onSelectPriority={handleSelectPriority} />
+    <SortInput sortValue={sortValue} setSortValue={setSortValue}/>
+
         <DropDownMenu items = {priorities} onSelectItem={handleSelectPriority} label="priority"/>
+        <DropDownMenu items = {categories} onSelectItem={handleSelectCategory} label="category"/>
 
     </View>
   )
 }
+
+export const CreateTaskWrapper = () => {
+
+  return (
+    <DataProvider>
+      <CreateTask />
+    </DataProvider>
+  )
+}
+
+const styles = StyleSheet.create({
+  textInputStyle: {
+    fontSize:18,
+    borderRadius:10,
+    padding:10,
+    margin:10,
+    borderWidth:1,
+  }
+})
+
+

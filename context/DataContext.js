@@ -1,6 +1,8 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
 import axios from 'axios';
 import { getURL } from '../utils/getURL';
+
+import api from '../utils/refreshToken';
 const DataContext = createContext();
 const url = getURL();
 export const useDataContext = () => useContext(DataContext);
@@ -16,9 +18,9 @@ export const DataProvider = ({children}) => {
       try {
         const [tasksResponse, categoriesResponse, prioritiesResponse] =
           await Promise.all([
-            axios.get(`${url}TodoTasks`),
-            axios.get(`${url}TodoCategories`),
-            axios.get(`${url}TodoPriorities`),
+            api.get(`${url}TodoTasks`),
+            api.get(`${url}TodoCategories`),
+            api.get(`${url}TodoPriorities`),
           ]);
 
         if (tasksResponse.data && categoriesResponse.data && prioritiesResponse.data) {

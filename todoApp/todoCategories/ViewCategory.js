@@ -3,8 +3,9 @@ import { TextInput, TouchableOpacity, View, Text, StyleSheet } from "react-nativ
 import { SvgXml } from "react-native-svg";
 import { GarbagePin, ShowPassword, ErrorSign, CheckSign } from "../../utils/SvgImages";
 import { commonStyles } from "../../utils/styles"
-import axios from "axios";
+// import axios from "axios";
 import { getURL } from "../../utils/getURL";
+import api from "../../utils/refreshToken";
 
 import EditCategory from "./EditCategory";
 const url = getURL()
@@ -32,7 +33,7 @@ export const ViewCategory = ({category,setCategoryList}) => {
   const deleteCategory = async() => {
     try{
 
-      const response = await axios.delete(`${url}TodoCategories/${category.id}`)
+      const response = await api.delete(`${url}TodoCategories/${category.id}`)
       
 
       setCategoryList((prevCategories) => 

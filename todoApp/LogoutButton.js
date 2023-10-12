@@ -25,6 +25,19 @@ export const LogoutButton = ({navigation}) => {
 
   return(
     <Button title="Logout" onPress={onPressLogout}/>
+    
+    )
+  }
+  
+export const Logout = async({navigation}) => {
+  const {user, setUser} = useUser()
+  console.log("In Logout")
+  await AsyncStorage.removeItem('userData')
+  setUser(emptyUser)
+  axios.defaults.headers.common['Authorization'] = null
 
-  )
+  navigation.navigate('Login')
+  // const onPressLogout = async () => {
+  // }
+
 }

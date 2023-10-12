@@ -10,11 +10,11 @@ import LoginScreen from './login/LoginScreen';
 import RegisterScreen from './login/RegisterScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HomeScreen } from './todoApp/HomeScreen';
-import { LogoutButton } from './todoApp/LogoutButton';
+import { Logout, LogoutButton } from './todoApp/LogoutButton';
 import { ListCategory } from './todoApp/todoCategories/ListCategory';
-import { CreateTask } from './todoApp/todoTasks/createTask/createTask';
+import { CreateTaskWrapper } from './todoApp/todoTasks/createTask/createTask';
 import axios from "axios"
-
+import { DataProvider } from './context/DataContext';
 const Stack = createNativeStackNavigator();
 
 
@@ -29,7 +29,7 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Logout" component={LogoutButton} />
           <Stack.Screen name="Categories" component={ListCategory} />
-          <Stack.Screen name="CreateTask" component ={CreateTask} />
+          <Stack.Screen name="CreateTask" component ={CreateTaskWrapper} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider >
