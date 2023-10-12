@@ -18,9 +18,9 @@ export const DataProvider = ({children}) => {
       try {
         const [tasksResponse, categoriesResponse, prioritiesResponse] =
           await Promise.all([
-            api.get(`${url}TodoTasks`),
-            api.get(`${url}TodoCategories`),
-            api.get(`${url}TodoPriorities`),
+            axios.get(`${url}TodoTasks`),
+            axios.get(`${url}TodoCategories`),
+            axios.get(`${url}TodoPriorities`),
           ]);
 
         if (tasksResponse.data && categoriesResponse.data && prioritiesResponse.data) {

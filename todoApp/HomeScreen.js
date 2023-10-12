@@ -5,10 +5,11 @@ import { ListCategory } from "./todoCategories/ListCategory"
 import { View, Text, Button, StyleSheet } from "react-native"
 import { ListTask } from "./todoTasks/listTasks"
 import { DataProvider } from "../context/DataContext"
+import { commonStyles } from "../utils/styles"
 
 
-export const HomeScreen = ({navigation}) => {
-
+export const HomeScreen = ({navigation, route}) => {
+  const successMessage = route.params ? route.params.successMessage : '';
   const {user, setUser} = useUser()
 
   const handleCategoryPress = () => {
@@ -17,10 +18,14 @@ export const HomeScreen = ({navigation}) => {
   const handleNewTaskCreate = () => {
     navigation.navigate("CreateTask")
   }
+
   return (
     <DataProvider>
 
       <View>
+        {successMessage && (
+          <Text style={commonStyles.successText}>{successMessage}</Text>
+        )}
         <Text>Hello12 {user.firstName} {user.lastName}</Text>
         <View style={styles.header}>
           <Button onPress={handleNewTaskCreate} title="create new todo" />

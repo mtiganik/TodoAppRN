@@ -10,7 +10,10 @@ export const commonStyles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 10,
-},
+},successText:{
+  color:'green',
+  fontSize: 10,
+}
 
 });
 

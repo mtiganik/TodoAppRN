@@ -36,6 +36,9 @@ const api = axios.create()
 // Add a response interceptor to handle token refresh
 api.interceptors.response.use(
   (response) => {
+    // console.log("Succesfull response")
+    // const currRefreshToken = await AsyncStorage.getItem("UserData.refreshToken")
+    // console.log("RefreshToken: ", currRefreshToken)
     return response;
   },
   async (error) => {
@@ -43,7 +46,7 @@ api.interceptors.response.use(
     console.log("Response status: " , error.response.status )
     if (error.response.status === 401) {
       console.log("In 401 interceptor") 
-      const prevRefreshToken = await AsyncStorage.getItem("UserData.refreshToken")
+      const prevRefreshToken = await AsyncStorage.getItem("token")
       console.log("prev token: " , prevRefreshToken)
       const newToken = await refreshToken(prevRefreshToken);
       console.log("new token: " , newToken)
