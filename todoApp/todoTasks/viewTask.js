@@ -6,16 +6,18 @@ import axios from "axios";
 import { useDataContext } from "../../context/DataContext";
 
 import { SvgXml } from "react-native-svg";
-import { GarbagePin, CheckSign } from "../../utils/SvgImages";
+import { GarbagePin, CheckSign, EditIcon } from "../../utils/SvgImages";
 
+import { useNavigation } from "@react-navigation/native";
 import {DisplayPriority} from "./displayPriority";
+import { EditTask } from "./editTask/editTask";
 
 const url = getURL()
 
 export const ViewTask = ({task, category, priority, setTasks}) => {
 
   const { setSuccessMessage} = useDataContext();
-
+  const navigation = useNavigation();
   const [error, setError] = useState("")
   const [isCompleted, setIsCompleted] = useState(task.isCompleted)
 
@@ -49,6 +51,9 @@ export const ViewTask = ({task, category, priority, setTasks}) => {
       setError("")
     }
   }
+  const onEdit = () => {
+    return navigation.navigate('EditTask', {taskId: task.id, category: category, priority:priority})
+  }
 
   return(
     <View style={[styles.container,{
@@ -68,6 +73,29 @@ export const ViewTask = ({task, category, priority, setTasks}) => {
 
       <View style={styles.rightContent}>
       
+
+        <TouchableOpacity onPress={onMarkAsDone}>
+          <View style={styles.button} >
+            <SvgXml
+              xml={CheckSign}
+              width={25}
+              height={25}
+            />
+            <Text style={styles.buttonText}>MARK DONE</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={onEdit}>
+          <View style={styles.button} >
+            <SvgXml
+              xml={EditIcon}
+              width={25}
+              height={25}
+            />
+            <Text style={styles.buttonText}>EDIT</Text>
+          </View>
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={onRemoveTask}>
           <View style={styles.button}>
             <SvgXml
@@ -79,17 +107,6 @@ export const ViewTask = ({task, category, priority, setTasks}) => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onMarkAsDone}>
-          <View style={styles.button} >
-            <SvgXml
-              xml={CheckSign}
-              width={25}
-              height={25}
-
-            />
-            <Text style={styles.buttonText}>MARK DONE</Text>
-          </View>
-        </TouchableOpacity>
       </View>
 
 
@@ -127,5 +144,6 @@ const styles = StyleSheet.create({
   },
   rightContent:{
     flex:2,
+    justifyContent:"center"
   }
 })

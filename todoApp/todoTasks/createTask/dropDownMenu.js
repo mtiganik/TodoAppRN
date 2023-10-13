@@ -2,15 +2,19 @@ import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
-export const DropDownMenu = ({items, onSelectItem, label}) => {
+export const DropDownMenu = 
+({items, onSelectItem, label, defaultLabel = "Select"}) => {
+
   const [selectedItem, setSelectedItem] = useState("")
 
   const handleItemChange = (value) => {
     setSelectedItem(value)
     onSelectItem(value)
   }
-  const defaultLabelName= `Select ${label}`
+  const defaultLabelName= `${defaultLabel} ${label}`
   const labelName = `${label}Name`
+
+
   return(
     <View style={style.PickerStyle}>
       <Text style={{borderBottomWidth:1, padding:5}}>Select {label}</Text>

@@ -13,6 +13,7 @@ import { HomeScreen } from './todoApp/HomeScreen';
 import { Logout, LogoutButton } from './todoApp/LogoutButton';
 import { ListCategory } from './todoApp/todoCategories/ListCategory';
 import { CreateTaskWrapper } from './todoApp/todoTasks/createTask/createTask';
+import { EditTaskWrapper } from './todoApp/todoTasks/editTask/editTask';
 import axios from "axios"
 import { DataProvider } from './context/DataContext';
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ export default function App() {
           <Stack.Screen name="Logout" component={LogoutButton} />
           <Stack.Screen name="Categories" component={ListCategory} />
           <Stack.Screen name="CreateTask" component ={CreateTaskWrapper} />
+          <Stack.Screen name="EditTask" component ={EditTaskWrapper} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider >
