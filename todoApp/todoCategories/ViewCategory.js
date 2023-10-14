@@ -3,7 +3,7 @@ import { TextInput, TouchableOpacity, View, Text, StyleSheet } from "react-nativ
 import { SvgXml } from "react-native-svg";
 import { GarbagePin, ShowPassword, ErrorSign, CheckSign } from "../../utils/SvgImages";
 import { commonStyles } from "../../utils/styles"
-// import axios from "axios";
+import axios from "axios";
 import { getURL } from "../../utils/getURL";
 import api from "../../utils/refreshToken";
 
@@ -33,13 +33,14 @@ export const ViewCategory = ({category,setCategoryList}) => {
   const deleteCategory = async() => {
     try{
 
-      const response = await api.delete(`${url}TodoCategories/${category.id}`)
+      const response = await axios.delete(`${url}TodoCategories/${category.id}`)
       
 
       setCategoryList((prevCategories) => 
       prevCategories.filter((cat) => cat.id !== category.id))
     }catch(error){
-      setFetchError(error)
+      console.error(error.message)
+      setFetchError("Error deleting category. This is problabry because some Tasks use this category. Remove this category from tasks first and then try again")
     }
   }
 

@@ -64,8 +64,7 @@ export const ViewTask = ({task, category, priority, setTasks}) => {
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>{task.taskName}</Text>
         <Text>Category: {category.categoryName}</Text>
         <Text>Completed: {isCompleted ? "Yes" : "No"}</Text>
-        <Text>Is Archieved: {category.isArchived ? "Yes" : "No"}</Text>
-        <Text>Created: {category.createdDt}</Text>
+        <Text>Created: {formatDateToUI(task.createdDt)}</Text>
         <Text>Due Date: {formatDateToUI(task.dueDt)}</Text>
         <DisplayPriority priority={priority} />
         <Text style={commonStyles.errorText}>{error}</Text>
