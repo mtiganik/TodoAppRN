@@ -11,7 +11,7 @@ import { GarbagePin, CheckSign, EditIcon } from "../../utils/SvgImages";
 import { useNavigation } from "@react-navigation/native";
 import {DisplayPriority} from "./displayPriority";
 import { EditTask } from "./editTask/editTask";
-
+import { formatDateToUI } from "../../utils/formatDate";
 const url = getURL()
 
 export const ViewTask = ({task, category, priority, setTasks}) => {
@@ -55,6 +55,7 @@ export const ViewTask = ({task, category, priority, setTasks}) => {
     return navigation.navigate('EditTask', {taskId: task.id, category: category, priority:priority})
   }
 
+
   return(
     <View style={[styles.container,{
       backgroundColor: isCompleted ? "green" : "red"
@@ -65,7 +66,7 @@ export const ViewTask = ({task, category, priority, setTasks}) => {
         <Text>Completed: {isCompleted ? "Yes" : "No"}</Text>
         <Text>Is Archieved: {category.isArchived ? "Yes" : "No"}</Text>
         <Text>Created: {category.createdDt}</Text>
-        <Text>Due Date: {category.dueDt}</Text>
+        <Text>Due Date: {formatDateToUI(task.dueDt)}</Text>
         <DisplayPriority priority={priority} />
         <Text style={commonStyles.errorText}>{error}</Text>
       </View>

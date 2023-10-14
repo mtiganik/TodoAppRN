@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { View, Text, Button, TextInput, StyleSheet, ScrollView } from "react-native";
 import axios from "axios";
@@ -11,6 +11,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 import { SortInput } from "../../../utils/sortInput";
 import { CalendarItem } from "../../../utils/calendarItem";
+import { formatDateToUI, formatDateToISO } from "../../../utils/formatDate";
+
 const url = getURL()
 
 export const EditTask = ({ taskId, category, priority }) => {
@@ -18,28 +20,38 @@ export const EditTask = ({ taskId, category, priority }) => {
   const [error, setError] = useState("")
 
   const [taskName, setTaskName] = useState()
-  const [taskSort, setTaskSort] = useState()
+  const [taskSort, setTaskSort] = useState("")
   const [dueDt, setDueDt] = useState()
   const [categoryId, setCategoryId] = useState()
   const [priorityId, setPriorityId] = useState()
 
   const navigation = useNavigation();
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`${url}TodoTasks/${taskId}`)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("In editTask useEffect")
+        const response = await axios.get(`${url}TodoTasks/${taskId}`)
 
-      setTaskName(response.data.taskName)
-      setTaskSort(response.data.taskSort)
-      setDueDt(response.data.dueDt)
-      setCategoryId(response.data.todoCategoryId)
-      setPriorityId(response.data.todoPriorityId)
+        setTaskName(response.data.taskName)
+        setTaskSort(response.data.taskSort)
+        setDueDt(response.data.dueDt)
+        setCategoryId(response.data.todoCategoryId)
+        setPriorityId(response.data.todoPriorityId)
 
-    } catch (error) {
-      console.error(error)
-      setError("Error retrieving data from server")
-    }
-  }
+        // console.log("taskSort: ", typeof(taskSort))
+        // console.log("taskSort: ", taskSort)
+        // console.log("dueDt: ", dueDt)
+        // console.log("todoCategoryId: ", categoryId)
+        // console.log("todoPriorityId: ", priorityId)
+
+      } catch (error) {
+        console.error(error)
+        setError("Error retrieving data from server")
+      }
+    };
+    fetchData()
+  }, [])
 
   const handleGoBack = () => {
     navigation.navigate("Home")
@@ -68,8 +80,13 @@ export const EditTask = ({ taskId, category, priority }) => {
   const handleSelectCategory = (value) => {
     setCategoryId(value)
   }
-  fetchData()
-  console.log("Priority: ", priority)
+  const handleSetDueDt = (value) => {
+    setDueDt(formatDateToISO(value))
+  }
+  const handleTaskSort = (value) => {
+    setTaskSort(value)
+  }
+
   return (
     <ScrollView>
       {priorityId && priorities && categories && (
@@ -83,13 +100,11 @@ export const EditTask = ({ taskId, category, priority }) => {
             value={taskName}
             onChangeText={setTaskName}
           />
-          <SortInput sortValue={taskSort} setSortValue={setTaskSort} defaultValue={taskSort}/>
+          <SortInput sortValue={taskSort} setSortValue={handleTaskSort} defaultValue={taskSort} />
           <DropDownMenu items={priorities} onSelectItem={handleSelectPriority} defaultLabel={priority.priorityName} label="priority" />
-          <DropDownMenu items={categories} onSelectItem={handleSelectCategory} defaultLabel={category.categoryName}   label="category" />
-          <Text>Due Date: {dueDt}</Text>
-          <CalendarItem selectedDate={dueDt} setSelectedDate={setDueDt} />
-
-
+          <DropDownMenu items={categories} onSelectItem={handleSelectCategory} defaultLabel={category.categoryName} label="category" />
+          <Text>Due Date: {formatDateToUI(dueDt)}</Text>
+          <CalendarItem selectedDate={dueDt} setSelectedDate={handleSetDueDt} />
           <Button title="Edit" onPress={handleEdit} />
         </View>
 

@@ -9,7 +9,7 @@ import { DataProvider } from "../../../context/DataContext";
 import { CalendarItem } from "../../../utils/calendarItem";
 import axios from "axios";
 import { getURL } from "../../../utils/getURL";
-
+import { formatDateToISO } from "../../../utils/formatDate";
 const url = getURL();
 
 export const CreateTask = ({navigation}) => {
@@ -32,9 +32,12 @@ export const CreateTask = ({navigation}) => {
 
   const handleSubmitNewTask = async() => {
     try{
+      // console.log("selectedDate", selectedDate)
+      const parsedDate = new Date(selectedDate)
+      const formattedDate = parsedDate.toISOString();
       const response = await axios.post(`${url}TodoTasks`, {
         taskName: taskName,
-        dueDt: selectedDate,
+        dueDt: formattedDate,
         taskSort: sortValue,
         todoCategoryId: selectedCategoryId,
         todoPriorityId: selectedPriorityId

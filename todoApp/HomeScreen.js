@@ -41,7 +41,7 @@ export const HomeScreen = ({navigation, route}) => {
 
 const ShowSuccesMessage = () => {
   const { successMessage } = useDataContext();
-  console.log(successMessage)
+
   return (
     <View>
       {successMessage && (
