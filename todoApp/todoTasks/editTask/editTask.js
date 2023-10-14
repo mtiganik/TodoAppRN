@@ -19,12 +19,15 @@ export const EditTask = ({ taskId, category, priority }) => {
   const { priorities, categories } = useDataContext()
   const [error, setError] = useState("")
 
-  const [taskName, setTaskName] = useState()
-  const [taskSort, setTaskSort] = useState("")
-  const [dueDt, setDueDt] = useState()
-  const [categoryId, setCategoryId] = useState()
-  const [priorityId, setPriorityId] = useState()
+  const [task, setTask] = useState({
+    taskName: "",
+    taskSort: "",
+    dueDt: "",
+    categoryId: "",
+    priorityId: "",
+  })
 
+  
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -32,18 +35,13 @@ export const EditTask = ({ taskId, category, priority }) => {
       try {
         console.log("In editTask useEffect")
         const response = await axios.get(`${url}TodoTasks/${taskId}`)
-
-        setTaskName(response.data.taskName)
-        setTaskSort(response.data.taskSort)
-        setDueDt(response.data.dueDt)
-        setCategoryId(response.data.todoCategoryId)
-        setPriorityId(response.data.todoPriorityId)
-
-        // console.log("taskSort: ", typeof(taskSort))
-        // console.log("taskSort: ", taskSort)
-        // console.log("dueDt: ", dueDt)
-        // console.log("todoCategoryId: ", categoryId)
-        // console.log("todoPriorityId: ", priorityId)
+        setTask({
+          taskName: response.data.taskName,
+          taskSort: response.data.taskSort,
+          dueDt: response.data.dueDt,
+          categoryId: response.data.todoCategoryId,
+          priorityId: response.data.todoPriorityId,
+        })
 
       } catch (error) {
         console.error(error)
@@ -60,11 +58,12 @@ export const EditTask = ({ taskId, category, priority }) => {
     try{
       const response = await axios.put(`${url}TodoTasks/${taskId}`,
       {
-        taskName: taskName,
-        taskSort: taskSort,
-        dueDt: dueDt,
-        todoCategoryId: categoryId,
-        todoPriorityId: priorityId
+        id: taskId,
+        taskName: task.taskName,
+        taskSort: task.taskSort,
+        dueDt: task.dueDt,
+        todoCategoryId: task.categoryId,
+        todoPriorityId: task.priorityId
       }
       )
       navigation.navigate("Home", {successMessage:"Task updated!"})
@@ -75,36 +74,36 @@ export const EditTask = ({ taskId, category, priority }) => {
     }
   }
   const handleSelectPriority = (value) => {
-    setPriorityId(value)
+    setTask({...task, priorityId: value})
   }
   const handleSelectCategory = (value) => {
-    setCategoryId(value)
+    setTask({...task, categoryId: value})
   }
   const handleSetDueDt = (value) => {
-    setDueDt(formatDateToISO(value))
+    setTask({...task, dueDt:formatDateToISO(value)})
   }
   const handleTaskSort = (value) => {
-    setTaskSort(value)
+    setTask({...task, taskSort:value})
   }
 
   return (
     <ScrollView>
-      {priorityId && priorities && categories && (
+      {task && priorities && categories && (
         <View>
 
           <Text style={{ fontSize: 20, fontWeight: "400" }}>Edit Task</Text>
           <Text>Task name</Text>
           <TextInput
             style={styles.textInputStyle}
-            placeholder={taskName}
-            value={taskName}
-            onChangeText={setTaskName}
+            placeholder={task.taskName}
+            value={task.taskName}
+            onChangeText={(text) => setTask({...task, taskName: text})}
           />
-          <SortInput sortValue={taskSort} setSortValue={handleTaskSort} defaultValue={taskSort} />
+          <SortInput sortValue={task.taskSort} setSortValue={handleTaskSort} defaultValue={task.taskSort} />
           <DropDownMenu items={priorities} onSelectItem={handleSelectPriority} defaultLabel={priority.priorityName} label="priority" />
           <DropDownMenu items={categories} onSelectItem={handleSelectCategory} defaultLabel={category.categoryName} label="category" />
-          <Text>Due Date: {formatDateToUI(dueDt)}</Text>
-          <CalendarItem selectedDate={dueDt} setSelectedDate={handleSetDueDt} />
+          <Text>Due Date: {formatDateToUI(task.dueDt)}</Text>
+          <CalendarItem selectedDate={task.dueDt} setSelectedDate={handleSetDueDt} />
           <Button title="Edit" onPress={handleEdit} />
         </View>
 
