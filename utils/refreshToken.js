@@ -1,7 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getURL } from './getURL';
-import { Logout } from '../todoApp/LogoutButton';
 
 const url = getURL(); // will return "https://taltech.akaver.com/api/v1/"
 
