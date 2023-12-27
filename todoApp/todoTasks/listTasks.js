@@ -1,14 +1,10 @@
-import { getURL } from "../../utils/getURL";
-import { View, ScrollView, Button, Text } from "react-native";
+import { View, ScrollView, Button, Text, StyleSheet } from "react-native";
 import { commonStyles } from "../../utils/styles";
 import { ViewTask } from "./viewTask";
 import { useDataContext } from "../../context/DataContext";
-const url = getURL()
 
 export const ListTask = () => {
-
   const {tasks, setTasks, categories, priorities, error} = useDataContext();
-
   function mapById(array){
     return array.reduce((acc, obj) =>{
       acc[obj.id] = obj;
@@ -20,10 +16,10 @@ export const ListTask = () => {
   const priorityMap = mapById(priorities);
   console.log("tasks: ", tasks)
   return(
-    <View> 
+    <View > 
       {tasks &&
         (
-          <ScrollView>
+          <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {tasks.map(task => (
 
           <ViewTask key={task.id} 
@@ -40,3 +36,8 @@ export const ListTask = () => {
   )
 }
 
+const styles = StyleSheet.create({
+  scrollViewContent:{
+    paddingBottom: 150
+  }
+})

@@ -27,7 +27,7 @@ export const HomeScreen = ({navigation, route}) => {
       )}
       <ShowSuccesMessage />
       <View>
-        <Text>Hello12 {user.firstName} {user.lastName}</Text>
+        <Text>Hello {user.firstName} {user.lastName}, {user.email}</Text>
         <View style={styles.header}>
           <Button onPress={handleNewTaskCreate} title="create new todo" />
           <Button onPress={handleCategoryPress} title="Categories" />
