@@ -119,9 +119,7 @@ export const EditTaskWrapper = () => {
   const {taskId, category, priority} = route.params;
 
   return(
-    <DataProvider>
       <EditTask taskId={taskId} category={category} priority={priority}/>
-    </DataProvider>
   )
 }
 

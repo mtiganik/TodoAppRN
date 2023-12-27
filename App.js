@@ -22,6 +22,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <UserProvider >
+      <DataProvider>
       <NavigationContainer >
         <Stack.Navigator>
           <Stack.Screen name="Main" component={MainScreen} />
@@ -34,6 +35,7 @@ export default function App() {
           <Stack.Screen name="EditTask" component ={EditTaskWrapper} />
         </Stack.Navigator>
       </NavigationContainer>
+      </DataProvider>
     </UserProvider >
 
   );

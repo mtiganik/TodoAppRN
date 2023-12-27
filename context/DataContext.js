@@ -8,7 +8,7 @@ const url = getURL();
 export const useDataContext = () => useContext(DataContext);
 
 export const DataProvider = ({children}) => {
-  const [tasks, setTasks] = useState();
+  const [tasks, setTasks] = useState([]);
   const [categories, setCategories] = useState([]);
   const [priorities, setPriorities] = useState([]);
   const [error, setError] = useState('');
@@ -43,7 +43,12 @@ export const DataProvider = ({children}) => {
 
   const contextValue = {
     tasks,
-    setTasks,
+    setTasks: (newTasks, callback) => {
+      setTasks(newTasks);
+      if(typeof callback === 'function'){
+        callback();
+      }
+    },
     categories,
     setCategories,
     priorities,

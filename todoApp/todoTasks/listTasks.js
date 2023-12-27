@@ -14,7 +14,6 @@ export const ListTask = () => {
 
   const categoryMap = mapById(categories);
   const priorityMap = mapById(priorities);
-  console.log("tasks: ", tasks)
   return(
     <View > 
       {tasks &&

@@ -5,11 +5,9 @@ import { DropDownMenu } from "./dropDownMenu";
 import { SortInput } from "../../../utils/sortInput";
 import { commonStyles } from "../../../utils/styles";
 import { useDataContext } from "../../../context/DataContext"
-import { DataProvider } from "../../../context/DataContext";
 import { CalendarItem } from "../../../utils/calendarItem";
 import axios from "axios";
 import { getURL } from "../../../utils/getURL";
-import { formatDateToISO } from "../../../utils/formatDate";
 const url = getURL();
 
 export const CreateTask = ({navigation}) => {
@@ -32,7 +30,6 @@ export const CreateTask = ({navigation}) => {
 
   const handleSubmitNewTask = async() => {
     try{
-      // console.log("selectedDate", selectedDate)
       const parsedDate = new Date(selectedDate)
       const formattedDate = parsedDate.toISOString();
       const response = await axios.post(`${url}TodoTasks`, {
@@ -42,10 +39,11 @@ export const CreateTask = ({navigation}) => {
         todoCategoryId: selectedCategoryId,
         todoPriorityId: selectedPriorityId
       })
-      setTasks((prevTasks) => [...prevTasks, response.data])
+      console.log("Start of setting todo tasks")
+      setTasks((prevTasks) => [...prevTasks, response.data], () => {
+        navigation.navigate("Home", {successMessage:"Successfully created new Task"})
 
-      
-      navigation.navigate("Home", {successMessage:"Successfully created new Task"})
+      })
 
     }catch(error){
       console.error("Error occured in createTask: ", error)
@@ -79,9 +77,7 @@ export const CreateTask = ({navigation}) => {
 export const CreateTaskWrapper = ({navigation}) => {
 
   return (
-    <DataProvider>
       <CreateTask navigation={navigation}/>
-    </DataProvider>
   )
 }
 

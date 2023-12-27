@@ -21,7 +21,7 @@ export const HomeScreen = ({navigation, route}) => {
   }
 
   return (
-    <DataProvider>
+    <>
       {NavigationSuccessMessage && (
         <Text style={commonStyles.successText}>{NavigationSuccessMessage}</Text>
       )}
@@ -35,7 +35,7 @@ export const HomeScreen = ({navigation, route}) => {
         </View>
         <ListTask />
       </View>
-      </DataProvider>
+      </>
   )
 }
 
