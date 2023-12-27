@@ -11,7 +11,7 @@ export const DisplayPriority = ({priority}) => {
   }else if(priority.prioritySort >= 3 && priority.prioritySort <= 5){
     textColor = 'orange';
   }else if (priority.prioritySort >= 6){
-    textColor = "red"
+    textColor = "darkred"
   }
   return (
     <View style={{flexDirection:"row"}}>
@@ -23,7 +23,7 @@ export const DisplayPriority = ({priority}) => {
           height={15}
         />
       )}
-      <Text style={{color:textColor}}>{priority.priorityName}</Text>
+      <Text style={{color:textColor, fontWeight:"bold"}}>{priority.priorityName}</Text>
     </View>
 )
 }

@@ -58,7 +58,7 @@ export const ViewTask = ({task, category, priority, setTasks}) => {
 
   return(
     <View style={[styles.container,{
-      backgroundColor: isCompleted ? "green" : "red"
+      backgroundColor: isCompleted ? "springgreen" : "orangered"
     }]}>
       <View style={styles.leftContent}>
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>{task.taskName}</Text>
